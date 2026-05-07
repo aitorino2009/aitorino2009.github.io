@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Aitor Portales — Proyectos</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:       #0a0c0f;
+      --surface:  #111418;
+      --surface2: #181c22;
+      --border:   #1e2530;
+      --green:    #00ff88;
+      --cyan:     #00d4ff;
+      --orange:   #ff6b35;
+      --muted:    #6b7888;
+      --text:     #dde4ee;
+      --dim:      #3a4455;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+      pointer-events: none; z-index: 200; opacity: 0.4;
+    }
+
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      height: 48px;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 2rem;
+      background: rgba(10,12,15,0.85);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-id { font-size: 0.72rem; letter-spacing: 0.1em; color: var(--muted); }
+    .nav-id span { color: var(--green); }
+    .nav-right { display: flex; gap: 1.5rem; }
+    .nav-right a {
+      color: var(--muted); text-decoration: none;
+      font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .nav-right a:hover { color: var(--text); }
+
+    .wrap {
+      max-width: 920px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+      position: relative; z-index: 1;
+    }
+
+    /* HERO */
+    .hero {
+      padding: 140px 0 80px;
+      display: grid;
+      grid-template-columns: 1fr 280px;
+      gap: 4rem;
+      align-items: end;
+      border-bottom: 1px solid var(--border);
+    }
+    .hero-eyebrow {
+      font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--green); margin-bottom: 1.2rem;
+    }
+    .hero-name {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: clamp(2.2rem, 5vw, 3.8rem);
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+      margin-bottom: 1.2rem;
+    }
+    .hero-sub {
+      color: var(--muted);
+      font-size: 0.82rem;
+      max-width: 360px;
+      line-height: 1.8;
+    }
+    .hero-meta {
+      display: flex; flex-direction: column; gap: 0.6rem;
+      padding: 1.4rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-size: 0.75rem;
+    }
+    .hm-row { display: flex; gap: 0.8rem; }
+    .hm-k { color: var(--cyan); min-width: 60px; flex-shrink: 0; }
+    .hm-v { color: var(--muted); }
+    .hm-v a { color: var(--muted); text-decoration: none; }
+    .hm-v a:hover { color: var(--green); }
+    .status-dot {
+      display: inline-block; width: 6px; height: 6px;
+      background: var(--green); border-radius: 50%;
+      margin-right: 5px; animation: pulse 2s ease infinite;
+    }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+    /* PROJECTS */
+    .projects-header {
+      padding: 5rem 0 2.5rem;
+      display: flex; align-items: baseline;
+      justify-content: space-between; gap: 1rem;
+    }
+    .projects-header h2 {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: clamp(1.4rem, 3vw, 1.9rem);
+      letter-spacing: -0.02em;
+    }
+    .projects-count { font-size: 0.68rem; letter-spacing: 0.15em; color: var(--dim); text-transform: uppercase; }
+
+    .project {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+      background: var(--surface);
+      transition: border-color 0.3s;
+      margin-bottom: 1.5rem;
+    }
+    .project:hover { border-color: var(--dim); }
+
+    .project-top {
+      padding: 2.2rem 2.2rem 1.8rem;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 2rem;
+      align-items: start;
+      cursor: pointer;
+    }
+    .project-num { font-size: 0.6rem; letter-spacing: 0.2em; color: var(--dim); margin-bottom: 0.8rem; }
+    .project-title {
+      font-family: 'Syne', sans-serif; font-weight: 700;
+      font-size: clamp(1.1rem, 2.5vw, 1.55rem);
+      letter-spacing: -0.02em; line-height: 1.2; margin-bottom: 0.9rem;
+    }
+    .project-oneliner { color: var(--muted); font-size: 0.82rem; line-height: 1.8; max-width: 520px; }
+    .project-badges { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 1.2rem; }
+    .badge {
+      font-size: 0.62rem; letter-spacing: 0.08em;
+      padding: 0.2rem 0.6rem; border-radius: 3px; border: 1px solid;
+    }
+    .badge-green  { color: var(--green);  border-color: rgba(0,255,136,0.25); background: rgba(0,255,136,0.05); }
+    .badge-cyan   { color: var(--cyan);   border-color: rgba(0,212,255,0.25); background: rgba(0,212,255,0.05); }
+    .badge-orange { color: var(--orange); border-color: rgba(255,107,53,0.25); background: rgba(255,107,53,0.05); }
+    .badge-dim    { color: var(--muted);  border-color: var(--border); background: transparent; }
+
+    .project-toggle {
+      display: flex; align-items: center; gap: 0.4rem;
+      font-size: 0.68rem; color: var(--dim); letter-spacing: 0.1em;
+      white-space: nowrap; padding-top: 0.2rem;
+      transition: color 0.2s; user-select: none;
+    }
+    .project-toggle .arrow { display: inline-block; transition: transform 0.3s; }
+    .project.open .project-toggle .arrow { transform: rotate(180deg); }
+    .project.open .project-toggle { color: var(--green); }
+
+    .project-detail {
+      max-height: 0; overflow: hidden;
+      transition: max-height 0.5s cubic-bezier(0.4,0,0.2,1);
+    }
+    .project.open .project-detail { max-height: 1000px; }
+
+    .project-detail-inner {
+      padding: 1.8rem 2.2rem 2.2rem;
+      border-top: 1px solid var(--border);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+    }
+    .detail-block h4 {
+      font-size: 0.62rem; letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--cyan); margin-bottom: 0.9rem;
+    }
+    .detail-block p { color: var(--muted); font-size: 0.8rem; line-height: 1.85; }
+    .detail-block ul { padding-left: 1rem; }
+    .detail-block li { color: var(--muted); font-size: 0.8rem; line-height: 1.85; margin-bottom: 0.3rem; }
+    .detail-block li::marker { color: var(--green); }
+    .detail-block strong { color: var(--text); }
+    .detail-block + .detail-block { margin-top: 0; }
+    .mt { margin-top: 1.2rem; }
+
+    .terminal-prompt {
+      margin-top: 2rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 1.2rem 1.4rem;
+      font-size: 0.78rem;
+      position: relative;
+    }
+    .terminal-prompt::before {
+      content: '● ● ●';
+      position: absolute; top: 0.55rem; left: 1rem;
+      color: var(--dim); font-size: 0.55rem; letter-spacing: 0.3em;
+    }
+    .t-line { padding-top: 0.75rem; }
+    .t-user { color: var(--green); }
+    .t-at   { color: var(--muted); }
+    .t-host { color: var(--cyan); }
+    .t-path { color: var(--muted); }
+    .t-cmd  { color: var(--text); }
+    .t-out  { color: var(--muted); padding-left: 1rem; }
+    .cursor {
+      display: inline-block; width: 7px; height: 13px;
+      background: var(--green); margin-left: 2px;
+      animation: blink 1s step-end infinite; vertical-align: middle;
+    }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+    .project-footer {
+      padding: 1.2rem 2.2rem;
+      background: var(--surface2);
+      border-top: 1px solid var(--border);
+      display: flex; align-items: center;
+      justify-content: space-between; gap: 1rem; flex-wrap: wrap;
+    }
+    .stack-pills { display: flex; gap: 0.4rem; flex-wrap: wrap; }
+    .pill { font-size: 0.65rem; color: var(--dim); padding: 0.15rem 0; }
+    .pill::before { content: '#'; margin-right: 2px; color: var(--border); }
+    .project-link {
+      font-size: 0.72rem; color: var(--muted); text-decoration: none;
+      letter-spacing: 0.05em; border: 1px solid var(--border);
+      border-radius: 4px; padding: 0.35rem 0.9rem; transition: all 0.2s;
+    }
+    .project-link:hover { border-color: var(--green); color: var(--green); }
+
+    /* GITHUB */
+    .repos-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1rem; margin-top: 1rem;
+    }
+    .repo-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 6px; padding: 1.2rem 1.4rem;
+      text-decoration: none; display: block;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .repo-card:hover { border-color: var(--cyan); transform: translateY(-2px); }
+    .repo-name { font-size: 0.82rem; color: var(--cyan); margin-bottom: 0.4rem; font-weight: 600; }
+    .repo-desc { font-size: 0.75rem; color: var(--muted); line-height: 1.6; }
+
+    /* CONTACT */
+    .contact-strip {
+      margin: 5rem 0 4rem;
+      padding: 2.5rem;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      display: flex; align-items: center;
+      justify-content: space-between; gap: 2rem; flex-wrap: wrap;
+      background: var(--surface);
+    }
+    .cs-text h3 {
+      font-family: 'Syne', sans-serif; font-weight: 700;
+      font-size: 1.2rem; margin-bottom: 0.3rem;
+    }
+    .cs-text p { color: var(--muted); font-size: 0.78rem; }
+    .cs-links { display: flex; gap: 0.8rem; flex-wrap: wrap; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      padding: 0.55rem 1.1rem; border-radius: 4px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem; letter-spacing: 0.04em;
+      text-decoration: none; transition: all 0.2s; border: 1px solid transparent;
+    }
+    .btn-p { background: var(--green); color: var(--bg); font-weight: 700; }
+    .btn-p:hover { background: transparent; border-color: var(--green); color: var(--green); }
+    .btn-s { border-color: var(--border); color: var(--muted); }
+    .btn-s:hover { border-color: var(--cyan); color: var(--cyan); }
+
+    footer {
+      border-top: 1px solid var(--border); padding: 1.5rem;
+      text-align: center; color: var(--dim); font-size: 0.68rem;
+      position: relative; z-index: 1;
+    }
+
+    .fade-in { opacity: 0; transform: translateY(18px); animation: fadeUp 0.7s forwards; }
+    @keyframes fadeUp { to { opacity:1; transform:translateY(0); } }
+    .d1{animation-delay:0.1s} .d2{animation-delay:0.25s} .d3{animation-delay:0.4s} .d4{animation-delay:0.55s}
+
+    .section-label {
+      font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--cyan); margin-bottom: 0.5rem;
+    }
+
+    @media (max-width: 640px) {
+      .hero { grid-template-columns: 1fr; gap: 2rem; padding: 100px 0 50px; }
+      .hero-meta { display: none; }
+      .project-top { grid-template-columns: 1fr; }
+      .project-detail-inner { grid-template-columns: 1fr; }
+      .nav-right { display: none; }
+      .contact-strip { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <span class="nav-id"><span>aitor</span>@portfolio</span>
+  <div class="nav-right">
+    <a href="#projects">proyectos</a>
+    <a href="#github">github</a>
+    <a href="#contact">contacto</a>
+  </div>
+</nav>
+
+<div class="wrap">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div>
+      <p class="hero-eyebrow fade-in d1">// Portfolio de proyectos</p>
+      <h1 class="hero-name fade-in d2">Aitor<br>Portales Crespí</h1>
+      <p class="hero-sub fade-in d3">
+        Estudiante de SMR en Palma de Mallorca.<br>
+        Aquí están los proyectos que hago por iniciativa propia,<br>no los que me piden.
+      </p>
+      <div class="terminal-prompt fade-in d4">
+        <div class="t-line">
+          <span class="t-user">aitor</span><span class="t-at">@</span><span class="t-host">portfolio</span><span class="t-path">:~$</span>
+          <span class="t-cmd"> whoami</span>
+        </div>
+        <div class="t-line t-out">Estudiante de SMR · Linux · Redes · Automatización</div>
+        <div class="t-line">
+          <span class="t-user">aitor</span><span class="t-at">@</span><span class="t-host">portfolio</span><span class="t-path">:~$</span>
+          <span class="t-cmd"> ls proyectos/</span>
+        </div>
+        <div class="t-line t-out">chromebook-n22/&nbsp;&nbsp;&nbsp;endeavouros-setup/&nbsp;&nbsp;&nbsp;github/</div>
+        <div class="t-line">
+          <span class="t-user">aitor</span><span class="t-at">@</span><span class="t-host">portfolio</span><span class="t-path">:~$</span>
+          <span class="t-cmd"> </span><span class="cursor"></span>
+        </div>
+      </div>
+    </div>
+    <div class="hero-meta fade-in d4" style="animation-delay:0.7s">
+      <div class="hm-row"><span class="hm-k">estado</span><span class="hm-v"><span class="status-dot"></span>buscando prácticas</span></div>
+      <div class="hm-row"><span class="hm-k">base</span><span class="hm-v">Palma de Mallorca</span></div>
+      <div class="hm-row"><span class="hm-k">formación</span><span class="hm-v">CFGM SMR</span></div>
+      <div class="hm-row"><span class="hm-k">github</span><span class="hm-v"><a href="https://github.com/aitorino2009" target="_blank">aitorino2009 ↗</a></span></div>
+    </div>
+  </div>
+
+  <!-- PROJECTS -->
+  <div id="projects">
+    <div class="projects-header">
+      <h2>Proyectos</h2>
+      <span class="projects-count">02 proyectos documentados</span>
+    </div>
+
+    <!-- PROJECT 01 -->
+    <div class="project" id="p1">
+      <div class="project-top" onclick="toggle('p1')">
+        <div>
+          <p class="project-num">01 / voluntario</p>
+          <h3 class="project-title">Resurrección del Chromebook N22</h3>
+          <p class="project-oneliner">
+            Transformé un Lenovo N22 con ChromeOS obsoleto en una máquina dual-boot
+            con Windows 11 Pro y Arch Linux + Hyprland — todo en un eMMC de 30 GB.
+          </p>
+          <div class="project-badges">
+            <span class="badge badge-green">Voluntario</span>
+            <span class="badge badge-cyan">Arch Linux</span>
+            <span class="badge badge-cyan">Hyprland</span>
+            <span class="badge badge-orange">Hardware real</span>
+            <span class="badge badge-dim">Dual-boot</span>
+          </div>
+        </div>
+        <div class="project-toggle">
+          detalle <span class="arrow">↓</span>
+        </div>
+      </div>
+
+      <div class="project-detail">
+        <div class="project-detail-inner">
+          <div class="detail-block">
+            <h4>El reto</h4>
+            <p>
+              Un Lenovo N22 con ChromeOS descontinuado que ya no recibía actualizaciones.
+              El hardware seguía funcionando — el software lo limitaba.
+              El objetivo: convertirlo en una máquina completamente funcional
+              sin tirar el equipo.
+            </p>
+            <h4 class="mt">El problema técnico real</h4>
+            <p>
+              El disco es un <strong>eMMC soldado de solo 30 GB</strong>.
+              Instalar <strong>Windows 11 Pro</strong> (con sus requisitos mínimos)
+              y <strong>Arch Linux con Hyprland</strong> en ese espacio requirió
+              una planificación cuidadosa del particionado y decidir qué
+              instalar en cada sistema para que ambos fueran viables.
+            </p>
+          </div>
+          <div class="detail-block">
+            <h4>Proceso</h4>
+            <ul>
+              <li>Análisis del hardware y compatibilidad de drivers</li>
+              <li>Desbloqueo del firmware del Chromebook</li>
+              <li>Diseño del esquema de particionado en 30 GB</li>
+              <li>Instalación de Windows 11 Pro con ajuste de espacio</li>
+              <li>Instalación manual de <strong>Arch Linux</strong> desde cero</li>
+              <li>Configuración de <strong>Hyprland</strong> como compositor Wayland</li>
+              <li>Configuración del bootloader dual-boot</li>
+            </ul>
+            <h4 class="mt">Resultado</h4>
+            <p>
+              <strong>Funcionó perfectamente.</strong> Dual-boot operativo entre
+              Windows 11 Pro y Arch Linux con Hyprland. Todo documentado.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="project-footer">
+        <div class="stack-pills">
+          <span class="pill">Arch Linux</span>
+          <span class="pill">Hyprland</span>
+          <span class="pill">Windows 11</span>
+          <span class="pill">eMMC</span>
+          <span class="pill">dual-boot</span>
+          <span class="pill">particionado</span>
+          <span class="pill">firmware</span>
+        </div>
+        <a class="project-link" href="https://docs.google.com/document/d/1iiWD7zhe7ZtOto3Xele8JX4efWFJFII2Ccg9QgNet0E/edit?usp=sharing" target="_blank">Ver documentación →</a>
+      </div>
+    </div>
+
+    <!-- PROJECT 02 -->
+    <div class="project" id="p2">
+      <div class="project-top" onclick="toggle('p2')">
+        <div>
+          <p class="project-num">02 / académico ampliado</p>
+          <h3 class="project-title">Instalación y configuración de Endeavour OS</h3>
+          <p class="project-oneliner">
+            Práctica de instalación del módulo SOM. Elegí Endeavour OS
+            — basada en Arch — por su proximidad al sistema real.
+            Instalada en hardware real.
+          </p>
+          <div class="project-badges">
+            <span class="badge badge-cyan">Arch-based</span>
+            <span class="badge badge-orange">Hardware real</span>
+            <span class="badge badge-dim">CC BY-NC-SA 4.0</span>
+          </div>
+        </div>
+        <div class="project-toggle">
+          detalle <span class="arrow">↓</span>
+        </div>
+      </div>
+
+      <div class="project-detail">
+        <div class="project-detail-inner">
+          <div class="detail-block">
+            <h4>Contexto</h4>
+            <p>
+              Práctica de instalación del módulo SOM (1º SMR).
+              Opté por <strong>Endeavour OS</strong> — distribución Arch-based
+              con instalador gráfico pero sin ocultar la estructura del sistema —
+              por querer profundizar más allá del temario.
+            </p>
+            <h4 class="mt">Por qué Endeavour OS</h4>
+            <p>
+              Arch Linux puro requiere instalación completamente manual desde TTY.
+              Endeavour mantiene esa filosofía con un instalador gráfico, ideal
+              para profundizar en cómo funciona el sistema real sin perderse
+              horas en el particionado.
+            </p>
+          </div>
+          <div class="detail-block">
+            <h4>Contenido del documento</h4>
+            <ul>
+              <li>Análisis de la distro y comparativa con otras opciones</li>
+              <li>Proceso de instalación paso a paso con capturas</li>
+              <li>Configuración del entorno post-instalación</li>
+              <li>Licenciado bajo <strong>CC BY-NC-SA 4.0</strong></li>
+            </ul>
+            <h4 class="mt">Plataforma</h4>
+            <p>Hardware real · Intel Core i5-7500 3.40GHz · 8 GB RAM</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="project-footer">
+        <div class="stack-pills">
+          <span class="pill">Endeavour OS</span>
+          <span class="pill">Arch Linux</span>
+          <span class="pill">Intel i5-7500</span>
+          <span class="pill">hardware real</span>
+          <span class="pill">configuración de entornos</span>
+        </div>
+        <a class="project-link" href="https://docs.google.com/document/d/1aArPYXXUv8zWFP5ljBWw6gfAL4fG3lOFqeuj2AVRWhA/edit?usp=sharing" target="_blank">Ver documentación →</a>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- GITHUB -->
+  <div id="github" style="padding: 4rem 0 2rem; border-top: 1px solid var(--border);">
+    <p class="section-label">// github</p>
+    <h2 style="font-family:'Syne',sans-serif; font-weight:800; font-size:1.6rem; letter-spacing:-0.02em; margin-bottom:0.6rem;">Repositorios</h2>
+    <p style="color:var(--muted); font-size:0.8rem; margin-bottom:2rem;">Código, scripts y experimentos en progreso.</p>
+    <div class="repos-grid">
+      <a class="repo-card" href="https://github.com/aitorino2009" target="_blank">
+        <p class="repo-name">↗ github.com/aitorino2009</p>
+        <p class="repo-desc">Python, JavaScript, Bash. Proyectos en activo.</p>
+      </a>
+    </div>
+  </div>
+
+  <!-- CONTACT -->
+  <div class="contact-strip" id="contact">
+    <div class="cs-text">
+      <h3>¿Hablamos?</h3>
+      <p>Abierto a prácticas y oportunidades en el sector TI.</p>
+    </div>
+    <div class="cs-links">
+      <a class="btn btn-p" href="mailto:aitorp2009@gmail.com">✉ aitorp2009@gmail.com</a>
+      <a class="btn btn-s" href="https://github.com/aitorino2009" target="_blank">↗ GitHub</a>
+    </div>
+  </div>
+
+</div>
+
+<footer>Aitor Portales Crespí · Palma de Mallorca · 2026</footer>
+
+<script>
+  function toggle(id) {
+    document.getElementById(id).classList.toggle('open');
+  }
+</script>
+
+</body>
+</html>
