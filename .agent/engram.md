@@ -9,8 +9,11 @@ Este archivo contiene la memoria del agente, reglas innegociables, aprendizajes 
 ## 📏 Reglas y Decisiones de Diseño
 * **Idioma:** Castellano (español) para interacciones y nombres de archivos de agente.
 * **Tecnologías:** HTML Semántico, Vanilla CSS (modularizado en `src/css/`), Vanilla JS (modularizado en `src/js/` usando ESM nativo). **Cero dependencias externas (NPM).**
-* **Diseño UI:** Temática "Terminal/Hacker" nivel premium (Glassmorphism, animaciones fluidas `cubic-bezier`, fondo dinámico sutil).
+* **Diseño UI:** Nivel "75.000€ Sysadmin" (Terminal CLI 100% interactiva simulada, HUD de servidor con gráficas Canvas en vivo, Scramble Text en scroll, Sintetizador de Web Audio API para SFX mecánicos, Navbar Flotante Sci-Fi, Hero Isométrico). Todo en Vanilla JS sin recursos externos.
 
 ## 🧠 Aprendizajes y Contexto
 * Se ha prescindido de empaquetadores como Vite debido a las restricciones del entorno local, demostrando que ES Modules y Vanilla CSS pueden estructurar aplicaciones modernas nativamente.
+* Se ha demostrado que es posible generar una experiencia audiovisual completa usando `AudioContext` nativo sin necesidad de cargar assets pesados de sonido (`.mp3`).
+* Metodología de componentes estrictos: Para cada bloque importante se redacta primero una "Spec" y se documenta como una "Skill" reutilizable.
+* Skills activas en `.agent/skills/`: testeo_local, animaciones_premium, crear_navbar_cinematica, crear_hero_cinematico, crear_terminal_interactiva, crear_texto_desencriptado, crear_monitor_sistemas, crear_sonidos_sinteticos.
 * Se implementó un IntersectionObserver para revelar elementos al hacer scroll para un rendimiento óptimo.
