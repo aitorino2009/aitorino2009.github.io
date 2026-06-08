@@ -23,7 +23,7 @@ El archivo `.agent/engram.md` es la **memoria a largo plazo** del proyecto.
 2. **Escritura Final:** Al finalizar o lograr un hito relevante en una sesión, **debo actualizar el archivo de Engram** con nuevos aprendizajes, decisiones de diseño tomadas y el estado actual del proyecto. Esto asegura la continuidad entre sesiones.
 
 ## 🛠️ Especificaciones (`.agent/specs/`) y Skills (`.agent/skills/`)
-* **Specs:** Si se me pide implementar una característica compleja, primero escribiré un archivo de especificaciones en `.agent/specs/nueva_caracteristica.md` detallando el diseño técnico antes de tocar una línea de código.
+* **Specs:** Si se me pide implementar una característica compleja o un componente, primero escribiré un archivo de especificaciones en `.agent/specs/nueva_caracteristica.md` detallando el diseño técnico antes de tocar una línea de código.
 * **Skills:** Recetas de comandos útiles se almacenan en `.agent/skills/` para que no tenga que redescubrirlas cada vez.
 
 ---

@@ -19,61 +19,80 @@
 </head>
 <body>
 
-<nav>
-  <span class="nav-id"><span>aitor</span>@portfolio</span>
+<!-- Cursor Personalizado -->
+<div class="cursor-dot" id="cursor-dot"></div>
+<div class="cursor-ring" id="cursor-ring"></div>
+
+<!-- Boot Sequence -->
+<div class="boot-sequence" id="boot-sequence">
+  <div class="boot-logs" id="boot-logs"></div>
+</div>
+
+<!-- Canvas Fondo Interactivo -->
+<canvas id="bg-canvas"></canvas>
+
+<nav class="nav-pill">
+  <div class="nav-logo glitch-hover">aitor<span>@</span>portfolio</div>
   <div class="nav-right">
-    <a href="#projects">proyectos</a>
-    <a href="#github">github</a>
-    <a href="#contact">contacto</a>
+    <a href="#projects" class="scanner-link">Proyectos</a>
+    <a href="#github" class="scanner-link">GitHub</a>
+    <a href="#contact" class="scanner-link">Contacto</a>
+    <button id="btn-sound" class="sound-toggle">[ AUDIO: ON ]</button>
   </div>
 </nav>
 
 <div class="wrap">
 
   <!-- HERO -->
-  <div class="hero">
-    <div>
-      <p class="hero-eyebrow fade-in d1">// Portfolio de proyectos</p>
-      <h1 class="hero-name fade-in d2">Aitor<br>Portales Crespí</h1>
+  <div class="hero-clean">
+    <div class="hero-content">
+      <p class="hero-eyebrow fade-in d1">// Protocolo Inicializado</p>
+      <h1 class="hero-name fade-in d2">Aitor Portales</h1>
       <p class="hero-sub fade-in d3">
-        Estudiante de SMR en Palma de Mallorca.<br>
-        Aquí están los proyectos que hago por iniciativa propia,<br>no los que me piden.
+        Técnico SMR. Desarrollador por vocación.<br>
+        Construyendo sistemas resilientes en Linux y la Web.
       </p>
-      <div class="terminal-prompt fade-in d4">
-        <div class="t-line">
-          <span class="t-user">aitor</span><span class="t-at">@</span><span class="t-host">portfolio</span><span class="t-path">:~$</span>
-          <span class="t-cmd" id="typewriter-cmd"></span><span class="cursor" id="typewriter-cursor"></span>
-        </div>
-        
-        <!-- Elementos ocultos hasta que termine la escritura -->
-        <div class="t-hidden" style="display: none;">
-          <div class="t-line t-out">Estudiante de SMR · Linux · Redes · Automatización</div>
-          <div class="t-line">
-            <span class="t-user">aitor</span><span class="t-at">@</span><span class="t-host">portfolio</span><span class="t-path">:~$</span>
-            <span class="t-cmd"> ls proyectos/</span>
-          </div>
-          <div class="t-line t-out">chromebook-n22/&nbsp;&nbsp;&nbsp;endeavouros-setup/&nbsp;&nbsp;&nbsp;github/</div>
-          <div class="t-line">
-            <span class="t-user">aitor</span><span class="t-at">@</span><span class="t-host">portfolio</span><span class="t-path">:~$</span>
-            <span class="t-cmd"> </span><span class="cursor"></span>
-          </div>
-        </div>
-
+      
+      <!-- Micro-Badges -->
+      <div class="micro-badges-container fade-in d4">
+        <span class="micro-badge"><span class="status-dot"></span> Buscando Prácticas</span>
+        <span class="micro-badge">📍 Mallorca</span>
+        <a href="https://github.com/aitorino2009" target="_blank" class="micro-badge badge-link">↗ GitHub</a>
       </div>
     </div>
-    <div class="hero-meta fade-in d4" style="animation-delay:0.7s">
-      <div class="hm-row"><span class="hm-k">estado</span><span class="hm-v"><span class="status-dot"></span>buscando prácticas</span></div>
-      <div class="hm-row"><span class="hm-k">base</span><span class="hm-v">Palma de Mallorca</span></div>
-      <div class="hm-row"><span class="hm-k">formación</span><span class="hm-v">CFGM SMR</span></div>
-      <div class="hm-row"><span class="hm-k">github</span><span class="hm-v"><a href="https://github.com/aitorino2009" target="_blank">aitorino2009 ↗</a></span></div>
+    
+    <!-- Terminal Interactiva -->
+    <div class="terminal-isometric fade-in d4" style="animation-delay:0.7s" onclick="document.getElementById('cmd-input').focus()">
+      <div class="terminal-prompt terminal-pristine" style="height: 250px; display: flex; flex-direction: column; cursor: text; overflow: hidden;">
+        <div id="cmd-history" style="flex: 1; overflow-y: auto; scrollbar-width: thin; scrollbar-color: rgba(0,255,136,0.3) transparent;">
+          <div class="t-line t-out" style="color: var(--muted); margin-bottom: 10px;">AitorOS v2.4.1 (tty1)<br>Type 'help' for a list of commands.</div>
+        </div>
+        <div class="t-line" style="flex-shrink: 0; padding-top: 4px; border-top: 1px solid rgba(0,255,136,0.08);">
+          <span class="t-user">aitor</span><span class="t-at">@</span><span class="t-host">portfolio</span><span class="t-path">:~$</span>
+          <span id="cmd-input" class="t-cmd" contenteditable="true" spellcheck="false" autocomplete="off" autocorrect="off"></span><span class="cursor"></span>
+        </div>
+      </div>
     </div>
+  </div>
+
+  <!-- HUD SYSADMIN -->
+  <div id="sys-hud">
+    <div class="hud-header">
+      <span>sys_monitor_daemon</span>
+    </div>
+    <div class="hud-row">
+      <div class="hud-box">CPU: <span id="hud-cpu" class="hud-val">12.4</span>%</div>
+      <div class="hud-box">NET: <span id="hud-net" class="hud-val">84</span> Mbps</div>
+      <div class="hud-box">UP: <span id="hud-up" class="hud-val">00:00:00</span></div>
+    </div>
+    <canvas id="hud-chart" width="200" height="40"></canvas>
   </div>
 
   <!-- PROJECTS -->
   <div id="projects">
     <div class="projects-header reveal">
-      <h2>Proyectos</h2>
-      <span class="projects-count">02 proyectos documentados</span>
+      <h2 class="scramble">Proyectos</h2>
+      <span class="projects-count">03 proyectos documentados</span>
     </div>
 
     <!-- PROJECT 01 -->
@@ -218,6 +237,139 @@
       </div>
     </div>
 
+    <!-- PROJECT 03 -->
+    <div class="project reveal" id="p3">
+      <div class="project-top" onclick="toggleProject('p3')">
+        <div>
+          <p class="project-num">03 / personal · open source</p>
+          <h3 class="project-title">Instalador Automático de Arch Linux</h3>
+          <p class="project-oneliner">
+            Script Bash de producción: 3 fases de configuración interactiva, cifrado LUKS2,
+            soporte BTRFS con subvolúmenes, 4 kernels, 6 entornos de escritorio y navegación
+            hacia atrás sin perder estado. Arch Linux completo en 5–10 minutos.
+          </p>
+          <div class="project-badges">
+            <span class="badge badge-green">Open Source</span>
+            <span class="badge badge-cyan">Bash</span>
+            <span class="badge badge-cyan">LUKS2</span>
+            <span class="badge badge-cyan">BTRFS</span>
+            <span class="badge badge-orange">Arch Linux</span>
+            <span class="badge badge-dim">set -euo pipefail</span>
+          </div>
+        </div>
+        <div class="project-toggle">
+          detalle <span class="arrow">↓</span>
+        </div>
+      </div>
+
+      <div class="project-detail">
+        <div class="project-detail-inner">
+          <div class="detail-block">
+            <h4>El problema real</h4>
+            <p>
+              Instalar Arch Linux manualmente implica más de 30 comandos ejecutados en orden exacto:
+              particionado, formateo, montaje, <code>pacstrap</code>, <code>arch-chroot</code>,
+              configuración del bootloader, red, locale, zona horaria, usuarios...
+              Un solo error en cualquier punto obliga a empezar desde cero.
+              Hacerlo repetidamente en diferentes máquinas es tiempo perdido de forma sistemática.
+            </p>
+            <h4 class="mt">La solución: un instalador de producción</h4>
+            <p>
+              Un único archivo <code>install.sh</code> con <strong>set -euo pipefail</strong>
+              (ejecución estricta, sin fallos silenciosos) que recorre tres fases de preguntas
+              antes de tocar el disco. <strong>Cualquier pregunta admite <code>&lt;</code> + Enter
+              para volver al paso anterior sin perder la configuración ya completada.</strong>
+            </p>
+          </div>
+
+          <div class="detail-block">
+            <h4>Fase 1 — Sistema Base (11 decisiones)</h4>
+            <ul>
+              <li><strong>Detección automática</strong> de discos con modelo y tamaño (<code>lsblk</code>)</li>
+              <li><strong>UEFI vs BIOS/Legacy</strong> detectado automáticamente desde <code>/sys/firmware/efi</code></li>
+              <li>Swap configurable con validación de formato (<code>8G</code>, <code>512M</code>) y comprobación de que cabe en el disco</li>
+              <li><strong>Cifrado LUKS</strong> — LUKS2 + Argon2id para <code>systemd-boot</code>, LUKS1 + SHA-256 para GRUB (por compatibilidad). La swap cifrada usa <code>PARTUUID</code> para evitar arranques lentos</li>
+              <li><strong>Sistema de archivos:</strong> <code>ext4</code> (clásico) o <code>btrfs</code> con subvolúmenes automáticos (<code>@</code>, <code>@home</code>, <code>@snapshots</code>, <code>@log</code>)</li>
+              <li>Partición <code>/home</code> separada (solo ext4); el espacio restante se asigna automáticamente</li>
+              <li>Hostname, zona horaria (validada contra <code>/usr/share/zoneinfo/</code>), idioma y distribución de teclado</li>
+              <li><strong>Selección de kernel:</strong> <code>linux</code> · <code>linux-lts</code> · <code>linux-zen</code> · <code>linux-hardened</code></li>
+              <li><strong>Bootloader:</strong> <code>GRUB</code> (UEFI + BIOS) · <code>systemd-boot</code> (solo UEFI)</li>
+            </ul>
+          </div>
+
+          <div class="detail-block">
+            <h4>Fase 2 — Usuario y Seguridad</h4>
+            <ul>
+              <li>Nombre de usuario con creación automática en grupos <code>wheel</code>, <code>audio</code>, <code>video</code>, <code>storage</code></li>
+              <li>Contraseña de <code>root</code> y de usuario con entrada oculta y <strong>doble confirmación obligatoria</strong></li>
+            </ul>
+            <h4 class="mt">Fase 3 — Entorno Gráfico y Extras</h4>
+            <ul>
+              <li><strong>Driver de vídeo:</strong> Intel · AMD · NVIDIA · VirtualBox · VMware · Ninguno (servidor headless)</li>
+              <li><strong>Entorno de escritorio:</strong> GNOME · KDE Plasma · XFCE · Hyprland · i3-wm · Todos · Ninguno</li>
+              <li><strong>AUR helper:</strong> <code>paru</code> · <code>yay</code> · ninguno</li>
+              <li><strong>Dotfiles:</strong> URL de repositorio git + script de instalación definido por el usuario</li>
+              <li><strong>SSH:</strong> habilita <code>sshd</code> al arranque con un solo paso</li>
+            </ul>
+          </div>
+
+          <div class="detail-block">
+            <h4>Ingeniería interna destacada</h4>
+            <ul>
+              <li><strong>Máquina de estados:</strong> <code>HISTORIAL[]</code> + <code>PASO</code> permiten navegar hacia atrás sin perder datos de cada fase</li>
+              <li><strong>UI coloreada completa:</strong> funciones <code>log()</code>, <code>warn()</code>, <code>error()</code>, <code>step()</code>, <code>pick()</code> con ANSI para una experiencia visual profesional en TTY</li>
+              <li><strong>Validación real:</strong> verifica existencia del disco, formato de tamaños, que el swap no supera el espacio disponible y que las contraseñas coinciden</li>
+              <li><strong>Zero configuración manual posterior:</strong> el sistema arranca completamente listo incluyendo entorno gráfico, AUR helper y dotfiles personales</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="project-footer">
+          <div class="stack-pills">
+            <span class="pill">Bash</span>
+            <span class="pill">LUKS2 / Argon2id</span>
+            <span class="pill">BTRFS subvols</span>
+            <span class="pill">GRUB / systemd-boot</span>
+            <span class="pill">pacstrap</span>
+            <span class="pill">arch-chroot</span>
+            <span class="pill">4 kernels</span>
+            <span class="pill">Hyprland · KDE · GNOME</span>
+            <span class="pill">paru / yay</span>
+          </div>
+          <a class="project-link" href="https://github.com/aitorino2009/Instalador-Arch-Linux" target="_blank">Ver código en GitHub →</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- TECH MARQUEE -->
+  <div class="tech-marquee-container reveal">
+    <div class="tech-marquee-track">
+      <!-- Repetimos la lista 2 veces para que el scroll sea infinito continuo -->
+      <div class="tech-marquee-content">
+        <span>Linux</span> <span class="dot">•</span>
+        <span>Bash</span> <span class="dot">•</span>
+        <span>Arch</span> <span class="dot">•</span>
+        <span>Redes</span> <span class="dot">•</span>
+        <span>Python</span> <span class="dot">•</span>
+        <span>Vanilla JS</span> <span class="dot">•</span>
+        <span>Windows Server</span> <span class="dot">•</span>
+        <span>Git</span> <span class="dot">•</span>
+        <span>Docker</span> <span class="dot">•</span>
+      </div>
+      <div class="tech-marquee-content">
+        <span>Linux</span> <span class="dot">•</span>
+        <span>Bash</span> <span class="dot">•</span>
+        <span>Arch</span> <span class="dot">•</span>
+        <span>Redes</span> <span class="dot">•</span>
+        <span>Python</span> <span class="dot">•</span>
+        <span>Vanilla JS</span> <span class="dot">•</span>
+        <span>Windows Server</span> <span class="dot">•</span>
+        <span>Git</span> <span class="dot">•</span>
+        <span>Docker</span> <span class="dot">•</span>
+      </div>
+    </div>
   </div>
 
   <!-- GITHUB -->
