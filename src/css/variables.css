@@ -1,0 +1,15 @@
+:root {
+  --bg:       #0a0c0f;
+  --surface:  #111418;
+  --surface2: #181c22;
+  --border:   #1e2530;
+  --green:    #00ff88;
+  --cyan:     #00d4ff;
+  --orange:   #ff6b35;
+  --muted:    #6b7888;
+  --text:     #dde4ee;
+  --dim:      #3a4455;
+  
+  --font-mono: 'JetBrains Mono', monospace;
+  --font-sans: 'Syne', sans-serif;
+}
