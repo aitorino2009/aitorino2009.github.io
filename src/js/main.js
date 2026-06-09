@@ -177,7 +177,11 @@ function initHUD() {
     let h = String(Math.floor(diff / 3600)).padStart(2, '0');
     let m = String(Math.floor((diff % 3600) / 60)).padStart(2, '0');
     let s = String(diff % 60).padStart(2, '0');
-    upEl.innerText = `${h}:${m}:${s}`;
+    let uptimeStr = `${h}:${m}:${s}`;
+    upEl.innerText = uptimeStr;
+    
+    // Live update para neofetch si existe
+    document.querySelectorAll('.nf-live-uptime').forEach(el => el.innerText = uptimeStr);
     
     // Draw Chart
     ctx.clearRect(0,0,200,40);
@@ -210,6 +214,20 @@ function initInteractiveTerminal() {
 
   const promptHTML = `<span class="t-user">aitor</span><span class="t-at">@</span><span class="t-host">portfolio</span><span class="t-path">:~$</span> `;
 
+  // Estado para Terminal Avanzada
+  const cmdHistory = [];
+  let historyIndex = -1;
+  const AVAILABLE_COMMANDS = ['help', 'clear', 'whoami', 'ls', 'skills', 'hire', 'sudo', 'neofetch'];
+
+  const moveCursorToEnd = (el) => {
+    const range = document.createRange();
+    const sel = window.getSelection();
+    range.selectNodeContents(el);
+    range.collapse(false);
+    sel.removeAllRanges();
+    sel.addRange(range);
+  };
+
   input.addEventListener('keydown', (e) => {
     // Ctrl+L = limpiar terminal (como en cualquier shell real)
     if (e.ctrlKey && e.key === 'l') {
@@ -217,6 +235,55 @@ function initInteractiveTerminal() {
       historyBox.innerHTML = '';
       const promptDiv = input.closest('.terminal-prompt');
       if (promptDiv) promptDiv.classList.add('terminal-pristine');
+      return;
+    }
+
+    // Autocompletado (Tab)
+    if (e.key === 'Tab') {
+      e.preventDefault();
+      const currentText = input.innerText.trim().toLowerCase();
+      if (!currentText) return;
+      
+      const matches = AVAILABLE_COMMANDS.filter(cmd => cmd.startsWith(currentText));
+      if (matches.length === 1) {
+        input.innerText = matches[0];
+        moveCursorToEnd(input);
+      } else if (matches.length > 1) {
+        // Modo Bash clásico: imprimir múltiples opciones
+        historyBox.innerHTML += `<div class="t-line">${promptHTML}<span class="t-cmd">${currentText}</span></div>`;
+        historyBox.innerHTML += `<div class="out" style="color: var(--cyan)">${matches.join('   ')}</div>`;
+        historyBox.scrollTop = historyBox.scrollHeight;
+      }
+      return;
+    }
+
+    // Historial de comandos (Flecha Arriba)
+    if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      if (cmdHistory.length === 0) return;
+      if (historyIndex === -1) {
+        historyIndex = cmdHistory.length - 1;
+      } else if (historyIndex > 0) {
+        historyIndex--;
+      }
+      input.innerText = cmdHistory[historyIndex];
+      moveCursorToEnd(input);
+      return;
+    }
+
+    // Historial de comandos (Flecha Abajo)
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      if (historyIndex !== -1) {
+        if (historyIndex < cmdHistory.length - 1) {
+          historyIndex++;
+          input.innerText = cmdHistory[historyIndex];
+          moveCursorToEnd(input);
+        } else {
+          historyIndex = -1;
+          input.innerText = '';
+        }
+      }
       return;
     }
 
@@ -228,6 +295,12 @@ function initInteractiveTerminal() {
       // Si el usuario pulsa Enter en blanco, ejecutamos el placeholder (help)
       if (cmd === '') {
         cmd = 'help';
+      } else {
+        // Añadir comando validado al historial
+        if (cmdHistory[cmdHistory.length - 1] !== cmd) {
+          cmdHistory.push(cmd);
+        }
+        historyIndex = -1; // Resetear índice tras ejecutar
       }
 
       // Quitamos la clase pristine para que no vuelva a salir el placeholder en los siguientes comandos
@@ -240,12 +313,49 @@ function initInteractiveTerminal() {
       const command = args[0];
 
       if (command === 'help') {
-        historyBox.innerHTML += `<div class="out">Comandos disponibles:<br>  whoami  - Ver perfil<br>  ls      - Listar proyectos<br>  skills  - Listar tecnologías<br>  clear   - Limpiar terminal<br>  hire    - Contactar</div>`;
+        historyBox.innerHTML += `<div class="out">Comandos disponibles:<br>  whoami   - Ver perfil<br>  ls       - Listar proyectos<br>  skills   - Listar tecnologías<br>  neofetch - Información del sistema<br>  clear    - Limpiar terminal<br>  hire     - Contactar</div>`;
       } else if (command === 'clear') {
         historyBox.innerHTML = '';
         if (promptDiv) promptDiv.classList.add('terminal-pristine');
       } else if (command === 'whoami') {
         historyBox.innerHTML += `<div class="out">Aitor Portales Crespí.<br>Estudiante de SMR (Sistemas Microinformáticos y Redes).<br>Apasionado por Linux, automatización y desarrollo web.</div>`;
+      } else if (command === 'neofetch') {
+        const res = `${window.innerWidth}x${window.innerHeight}`;
+        const upEl = document.getElementById('hud-up');
+        const up = upEl ? upEl.innerText : '00:00:00';
+        historyBox.innerHTML += `
+<div class="out" style="display: flex; gap: 1.5rem; align-items: flex-start; margin-top: 10px; margin-bottom: 10px;">
+  <div style="color: var(--cyan); white-space: pre; line-height: 1.1; font-weight: bold; font-size: 0.85rem; text-shadow: 0 0 5px var(--cyan);">
+       /\\
+      /  \\
+     /    \\
+    /      \\
+   /   ,,   \\
+  /   |  |   \\
+ /_-''    ''-_\\
+  </div>
+  <div style="font-size: 0.75rem; line-height: 1.4;">
+    <span style="color: var(--cyan); font-weight: bold;">aitor</span>@<span style="color: var(--cyan); font-weight: bold;">portfolio</span><br>
+    -------------------------<br>
+    <span style="color: var(--cyan); font-weight: bold;">OS:</span> AitorOS v2.4.1 (Web)<br>
+    <span style="color: var(--cyan); font-weight: bold;">Host:</span> Portfolio Sysadmin<br>
+    <span style="color: var(--cyan); font-weight: bold;">Kernel:</span> JS-Vanilla-1.0<br>
+    <span style="color: var(--cyan); font-weight: bold;">Uptime:</span> <span class="nf-live-uptime">${up}</span><br>
+    <span style="color: var(--cyan); font-weight: bold;">Shell:</span> bash-sim<br>
+    <span style="color: var(--cyan); font-weight: bold;">Resolution:</span> <span class="nf-live-res">${res}</span><br>
+    <span style="color: var(--cyan); font-weight: bold;">DE:</span> CSS3 + HTML5<br>
+    <span style="color: var(--cyan); font-weight: bold;">Terminal:</span> tty1-browser<br>
+    <br>
+    <span style="display:inline-block; width:12px; height:12px; background:#111418;"></span>
+    <span style="display:inline-block; width:12px; height:12px; background:#ff4400;"></span>
+    <span style="display:inline-block; width:12px; height:12px; background:#00ff9d;"></span>
+    <span style="display:inline-block; width:12px; height:12px; background:#ffcc00;"></span>
+    <span style="display:inline-block; width:12px; height:12px; background:#00e5ff;"></span>
+    <span style="display:inline-block; width:12px; height:12px; background:#9d00ff;"></span>
+    <span style="display:inline-block; width:12px; height:12px; background:#00d4ff;"></span>
+    <span style="display:inline-block; width:12px; height:12px; background:#f0f5fa;"></span>
+  </div>
+</div>`;
       } else if (command === 'ls') {
         historyBox.innerHTML += `<div class="out" style="color: var(--cyan)">chromebook/   endeavouros/   github/</div>`;
       } else if (command === 'skills') {
@@ -261,6 +371,12 @@ function initInteractiveTerminal() {
       historyBox.scrollTop = historyBox.scrollHeight;
     }
   });
+
+  // Mantener la resolución del neofetch actualizada en vivo
+  window.addEventListener('resize', () => {
+    const liveRes = `${window.innerWidth}x${window.innerHeight}`;
+    document.querySelectorAll('.nf-live-res').forEach(el => el.innerText = liveRes);
+  }, { passive: true });
 }
 
 // ==========================================
