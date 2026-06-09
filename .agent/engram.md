@@ -1,19 +1,47 @@
-# Memoria a Largo Plazo (Engram)
+# 🧠 .agent/engram.md — Memoria del Agente (Engram)
 
-Este archivo contiene la memoria del agente, reglas innegociables, aprendizajes y el estado actual del proyecto para asegurar la continuidad entre sesiones.
+Este archivo almacena la memoria persistente del Agente para asegurar la coherencia del desarrollo a lo largo de las múltiples sesiones de trabajo. **No debe ser borrado ni alterado de forma destructiva.**
 
-## 📌 Estado Actual del Proyecto
-* **Proyecto:** Web personal (`aitorino2009.github.io`).
-* **Hito Actual:** Refactorización completada y desvinculada de NPM. Arquitectura puramente Vanilla, lista para GitHub Pages sin bundler.
+---
 
-## 📏 Reglas y Decisiones de Diseño
-* **Idioma:** Castellano (español) para interacciones y nombres de archivos de agente.
-* **Tecnologías:** HTML Semántico, Vanilla CSS (modularizado en `src/css/`), Vanilla JS (modularizado en `src/js/` usando ESM nativo). **Cero dependencias externas (NPM).**
-* **Diseño UI:** Nivel "75.000€ Sysadmin" Premium. Estética Dark/Cyber con altísimo contraste, efectos de cristal (Glassmorphism), fuertes brillos Neón (verde, cian y acentos morados) y texturas de cuadrícula técnica 3D dinámica. Incluye Terminal CLI interactiva simulada, HUD Canvas, Scramble Text, Sintetizador Web Audio, e inmersiones interactivas (Warp Speed + Hologramas SVG temáticos) al abrir proyectos. Todo 100% Vanilla.
+## 🚨 Reglas Críticas e Innegociables
+Estas reglas han sido indicadas por el usuario y son de obligado cumplimiento bajo cualquier circunstancia:
 
-## 🧠 Aprendizajes y Contexto
-* Se ha prescindido de empaquetadores como Vite debido a las restricciones del entorno local, demostrando que ES Modules y Vanilla CSS pueden estructurar aplicaciones modernas nativamente.
-* Se ha demostrado que es posible generar una experiencia audiovisual completa usando `AudioContext` nativo sin necesidad de cargar assets pesados de sonido (`.mp3`).
-* Metodología de componentes estrictos: Para cada bloque importante se redacta primero una "Spec" y se documenta como una "Skill" reutilizable.
-* Skills activas en `.agent/skills/`: testeo_local, animaciones_premium, crear_navbar_cinematica, crear_hero_cinematico, crear_terminal_interactiva, crear_texto_desencriptado, crear_monitor_sistemas, crear_sonidos_sinteticos.
-* Se implementó un IntersectionObserver para revelar elementos al hacer scroll para un rendimiento óptimo.
+1. **Protocolo de Inicio de Sesión:** Al iniciar cualquier tarea o sesión, el agente debe:
+   * Leer **SIEMPRE** el archivo `agent.md` en la raíz.
+   * Seguir estrictamente los protocolos de Memoria (Engram) y Skills definidos allí.
+   * Respetar e integrar las especificaciones técnicas guardadas en `.agent/specs/`.
+2. **Localización y Estilo:** Hablar siempre en **castellano** y mantener el estilo técnico, ameno, riguroso y divertido ("Nivel 75.000€ Sysadmin Premium").
+3. **Pureza del Stack (Vanilla):** El proyecto tiene prohibido terminantemente el uso de dependencias externas en NPM (React, Tailwind, Vue, Vite, etc.). Todo se debe construir usando Vanilla HTML5, CSS3 y JS (ESM) para garantizar máxima ligereza y compatibilidad directa en GitHub Pages.
+4. **Cero Dependencias Visuales/Auditivas Pesadas:** Prohibido cargar archivos `.mp3` o librerías masivas de iconos. Los efectos de sonido se generan vía `AudioContext` nativo y los iconos se inyectan como rutas SVG (`<svg><path/></svg>`) directamente en el DOM.
+5. **Nombrado de Archivos en Castellano:** Cualquier archivo nuevo creado en el repositorio (especificaciones, habilidades, planes, etc.) debe tener obligatoriamente su nombre de archivo escrito en castellano (ej. `inmersion_dinamica.md` en lugar de `dynamic_immersion.md`).
+6. **Paciencia y Protocolo (Quien mucho abarca poco aprieta):** Nunca agrupes múltiples fases en una sola respuesta. El flujo de desarrollo es estricto y secuencial: Idea → Plan de Implementación (`.agent/specs/`) → Aprobación del Usuario → Ejecución.
+7. **Estética Cyber/Sysadmin Innegociable:** La UI debe apoyarse siempre en el contraste táctico (`#03050a` de fondo), brillos Neón (`--cyan`, `--green`, `--purple`), texturas técnicas (grid) y Glassmorphism (`backdrop-filter`).
+
+---
+
+## 💡 Aprendizajes Recientes del Proyecto
+* **Mecánica del HUD en Tiempo Real:** Para evitar saturar el hilo principal con cálculos pesados en el monitor de sistemas (`canvas`), la actualización se realiza mediante un `setInterval` que interpola valores matemáticos (`Math.random` con histórico) y redibuja únicamente las coordenadas necesarias, logrando 60fps sin librerías externas de gráficos.
+* **Warp Speed y Aceleración de Hardware:** Para simular el "salto hiperespacial" al abrir un proyecto, se prescindió de animaciones CSS tradicionales en favor de un bucle `requestAnimationFrame` en JS que inyecta un multiplicador de velocidad dinámico (`warpMultiplier`) al `backgroundPositionY` del grid 3D. Esto permite aplicar fricción matemática (`*= 0.94`) logrando una inercia perfecta.
+* **Máquina de Estados de Acordeón para Proyectos:** Se reestructuró la lógica de apertura de proyectos en `main.js` (`toggleProject`). Ahora, antes de añadir la clase `open` al proyecto objetivo, se itera sobre todos los elementos `.project` eliminando la clase. Esto centraliza el estado y asegura la exclusividad de la inmersión holográfica.
+* **⚠️ REGLA CRÍTICA — Rutas SVG en el DOM:** Se intentó usar SVGs externos, pero generaba parpadeos y peticiones de red innecesarias. La solución definitiva fue embeber las rutas de los iconos (Arch Linux, Bash, Windows, LUKS) como constantes de texto (Template Strings) dentro de `main.js` e inyectarlas a través de `innerHTML` solo cuando el contenedor holográfico se activa.
+* **⚠️ BUG CRÍTICO — Neofetch estático frente a ventana dinámica:** Originalmente, el comando `neofetch` de la terminal evaluaba `window.innerWidth` al momento de teclear y dejaba el string "muerto". Si el usuario redimensionaba la pantalla, la salida era incorrecta. Solución implementada: envolver los valores críticos (Resolución y Uptime) en `<span class="nf-live-res">` y `<span class="nf-live-uptime">`, creando listeners (`resize` y `setInterval`) que buscan iterativamente esos selectores para sobreescribir su contenido, convirtiendo la salida de la terminal en un dashboard en vivo.
+* **Inyección Eficiente con IntersectionObserver:** Las animaciones complejas (tilt effect, scramble text, hologramas) penalizaban el Time-To-Interactive (TTI). Se solucionó encapsulando la inicialización de observadores visuales en un `IntersectionObserver`, garantizando que el DOM solo renderiza los efectos pesados cuando la tarjeta entra en el Viewport del usuario.
+* **Sintesis Modular de Audio:** En lugar de disparar `AudioContext` en cada clic (lo que causa latencia), se instancian osciladores persistentes con un nodo de ganancia (`GainNode`) en `0`. Al hacer hover o clic, se modula exponencialmente el volumen (`exponentialRampToValueAtTime`), logrando un sonido mecánico instantáneo y libre de clipping (chasquidos de audio).
+
+---
+
+## 📊 Estado Actual del Proyecto
+* **Versión actual:** Web personal estable y refactorizada (100% Vanilla JS/CSS). Desplegable de forma inmediata mediante GitHub Pages.
+* **Módulos Críticos:** Terminal simulada (parser de comandos y neofetch dinámico), HUD Canvas activo, Grid 3D interactivo con Warp Speed, Sintetizador de SFX de UI.
+* **Skills Activas:** `.agent/skills/` cuenta con múltiples recetas de componentes (animaciones, audio, terminal).
+* **Specs Implementadas:** Especificación "Operación Supernova" e "Inmersión Dinámica" desarrolladas con éxito e integradas en `main.js`.
+
+---
+
+## 🗺️ Roadmap de Mejoras Sugeridas (Futuros Pasos)
+Si deseas expandir el proyecto, aquí hay ideas altamente recomendadas que se pueden abordar en las siguientes sesiones:
+* [x] **Sistema de Autocompletado (Tab) en Terminal:** Implementar la detección de la tecla `Tab` en el input de la terminal simulada para autocompletar comandos disponibles (`whoami`, `neofetch`, `skills`).
+* [x] **Historial de Comandos (Flechas Arriba/Abajo):** Mantener un array temporal en JS con los comandos ejecutados por el usuario, permitiendo navegar por ellos usando las flechas de dirección.
+* [ ] **Modo "Hacker" / CRT Filter:** Añadir un botón o un comando secreto (`sudo hacker`) que inyecte globalmente una capa de scanlines y ligera aberración cromática imitando un monitor CRT antiguo.
+* [ ] **Sistema de Archivos Simulado (vFS):** Expandir el comando `ls` para permitir al usuario hacer `cd` dentro de las carpetas de los proyectos (ej. `cd arch-installer`), leyendo la estructura de un objeto JSON precargado.
