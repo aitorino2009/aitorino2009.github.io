@@ -9,7 +9,7 @@ Este archivo contiene la memoria del agente, reglas innegociables, aprendizajes 
 ## 📏 Reglas y Decisiones de Diseño
 * **Idioma:** Castellano (español) para interacciones y nombres de archivos de agente.
 * **Tecnologías:** HTML Semántico, Vanilla CSS (modularizado en `src/css/`), Vanilla JS (modularizado en `src/js/` usando ESM nativo). **Cero dependencias externas (NPM).**
-* **Diseño UI:** Nivel "75.000€ Sysadmin" (Terminal CLI 100% interactiva simulada, HUD de servidor con gráficas Canvas en vivo, Scramble Text en scroll, Sintetizador de Web Audio API para SFX mecánicos, Navbar Flotante Sci-Fi, Hero Isométrico). Todo en Vanilla JS sin recursos externos.
+* **Diseño UI:** Nivel "75.000€ Sysadmin" Premium. Estética Dark/Cyber con altísimo contraste, efectos de cristal (Glassmorphism), fuertes brillos Neón (verde, cian y acentos morados) y texturas de cuadrícula técnica 3D dinámica. Incluye Terminal CLI interactiva simulada, HUD Canvas, Scramble Text, Sintetizador Web Audio, e inmersiones interactivas (Warp Speed + Hologramas SVG temáticos) al abrir proyectos. Todo 100% Vanilla.
 
 ## 🧠 Aprendizajes y Contexto
 * Se ha prescindido de empaquetadores como Vite debido a las restricciones del entorno local, demostrando que ES Modules y Vanilla CSS pueden estructurar aplicaciones modernas nativamente.

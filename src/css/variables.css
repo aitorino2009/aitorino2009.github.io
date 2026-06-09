@@ -1,14 +1,18 @@
 :root {
-  --bg:       #0a0c0f;
-  --surface:  #111418;
-  --surface2: #181c22;
-  --border:   #1e2530;
-  --green:    #00ff88;
-  --cyan:     #00d4ff;
-  --orange:   #ff6b35;
-  --muted:    #6b7888;
-  --text:     #dde4ee;
-  --dim:      #3a4455;
+  --bg:       #03050a;
+  --surface:  #0a0f18;
+  --surface2: #121a28;
+  --border:   #1f2d40;
+  --green:    #00ff9d;
+  --green-rgb: 0, 255, 157;
+  --cyan:     #00e5ff;
+  --cyan-rgb: 0, 229, 255;
+  --purple:   #9d00ff;
+  --purple-rgb: 157, 0, 255;
+  --orange:   #ff4400;
+  --muted:    #7b8b9e;
+  --text:     #f0f5fa;
+  --dim:      #4a5768;
   
   --font-mono: 'JetBrains Mono', monospace;
   --font-sans: 'Syne', sans-serif;
