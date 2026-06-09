@@ -458,9 +458,82 @@ function initScrollAnimations() {
 }
 
 function initProjects() {
+  const container = document.getElementById('project-holograms');
+  const svgs = {
+    p1: [
+      `<svg viewBox="0 0 100 100" class="hologram-icon holo-1"><path d="M0 15 L45 8 L45 48 L0 48 Z M50 7 L100 0 L100 48 L50 48 Z M0 52 L45 52 L45 92 L0 85 Z M50 52 L100 52 L100 100 L50 93 Z"/></svg>`,
+      `<svg viewBox="0 0 100 100" class="hologram-icon holo-2"><path d="M50 5 L95 95 L75 95 L50 45 L25 95 L5 95 Z M40 80 L60 80 L50 60 Z"/></svg>`
+    ],
+    p2: [
+      `<svg viewBox="0 0 100 100" class="hologram-icon holo-1"><path d="M50 5 L95 95 L75 95 L50 45 L25 95 L5 95 Z M40 80 L60 80 L50 60 Z"/></svg>`,
+      `<svg viewBox="0 0 100 100" class="hologram-icon holo-2"><path d="M10 10 L90 10 L90 40 L10 40 Z M20 20 L30 20 L30 30 L20 30 Z M40 20 L50 20 L50 30 L40 30 Z M10 60 L90 60 L90 90 L10 90 Z M20 70 L30 70 L30 80 L20 80 Z M40 70 L50 70 L50 80 L40 80 Z"/></svg>`
+    ],
+    p3: [
+      `<svg viewBox="0 0 100 100" class="hologram-icon holo-1"><path d="M10 20 L40 50 L10 80 L20 90 L60 50 L20 10 Z M50 80 L90 80 L90 95 L50 95 Z"/></svg>`,
+      `<svg viewBox="0 0 100 100" class="hologram-icon holo-2"><path d="M30 40 L30 25 C30 10 70 10 70 25 L70 40 L80 40 L80 95 L20 95 L20 40 Z M40 40 L60 40 L60 25 C60 15 40 15 40 25 Z"/></svg>`,
+      `<svg viewBox="0 0 100 100" class="hologram-icon holo-3"><path d="M50 5 L95 95 L75 95 L50 45 L25 95 L5 95 Z M40 80 L60 80 L50 60 Z"/></svg>`
+    ]
+  };
+
   window.toggleProject = function(id) {
     const el = document.getElementById(id);
-    if (el) el.classList.toggle('open');
+    if (!el) return;
+    
+    const isOpen = el.classList.contains('open');
+    
+    // Modo Acordeón: Cerrar todos los demás
+    document.querySelectorAll('.project').forEach(p => p.classList.remove('open'));
+    
+    if (!isOpen) {
+      el.classList.add('open');
+      if (window.triggerWarp) window.triggerWarp();
+      
+      // Mostrar SVGs Holográficos
+      if (container) {
+        container.innerHTML = (svgs[id] || []).join('');
+        // Pequeño delay para que el warp empiece antes
+        setTimeout(() => container.classList.add('active'), 200);
+      }
+    } else {
+      if (container) {
+        container.classList.remove('active');
+        setTimeout(() => container.innerHTML = '', 1500);
+      }
+    }
+  };
+}
+
+// ==========================================
+// 8. 3D GRID SCROLL ANIMATION
+// ==========================================
+let warpSpeed = 0;
+let warpMultiplier = 0.8;
+
+function init3DGridScroll() {
+  const grid = document.getElementById('grid-3d');
+  if (!grid) return;
+  
+  window.addEventListener('scroll', () => {
+    const scrolled = window.scrollY;
+    grid.style.backgroundPositionY = `${scrolled * 0.8 + warpSpeed}px`;
+  }, { passive: true });
+
+  // Bucle de renderizado para el efecto Warp
+  function renderWarp() {
+    if (warpMultiplier > 0.8) {
+      warpSpeed += warpMultiplier * 8; // Velocidad de avance
+      warpMultiplier *= 0.94; // Fricción suave
+      if (warpMultiplier < 0.81) warpMultiplier = 0.8;
+      
+      const scrolled = window.scrollY;
+      grid.style.backgroundPositionY = `${scrolled * 0.8 + warpSpeed}px`;
+      requestAnimationFrame(renderWarp);
+    }
+  }
+  
+  window.triggerWarp = function() {
+    warpMultiplier = 15; // Aceleración masiva inicial
+    renderWarp();
   };
 }
 
@@ -480,4 +553,5 @@ document.addEventListener('DOMContentLoaded', () => {
   initTiltEffect();
   initScrollAnimations();
   initProjects();
+  init3DGridScroll();
 });
