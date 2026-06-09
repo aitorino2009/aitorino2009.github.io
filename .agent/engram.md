@@ -27,21 +27,26 @@ Estas reglas han sido indicadas por el usuario y son de obligado cumplimiento ba
 * **⚠️ REGLA CRÍTICA — Rutas SVG en el DOM:** Se intentó usar SVGs externos, pero generaba parpadeos y peticiones de red innecesarias. La solución definitiva fue embeber las rutas de los iconos (Arch Linux, Bash, Windows, LUKS) como constantes de texto (Template Strings) dentro de `main.js` e inyectarlas a través de `innerHTML` solo cuando el contenedor holográfico se activa.
 * **⚠️ BUG CRÍTICO — Neofetch estático frente a ventana dinámica:** Originalmente, el comando `neofetch` de la terminal evaluaba `window.innerWidth` al momento de teclear y dejaba el string "muerto". Si el usuario redimensionaba la pantalla, la salida era incorrecta. Solución implementada: envolver los valores críticos (Resolución y Uptime) en `<span class="nf-live-res">` y `<span class="nf-live-uptime">`, creando listeners (`resize` y `setInterval`) que buscan iterativamente esos selectores para sobreescribir su contenido, convirtiendo la salida de la terminal en un dashboard en vivo.
 * **Inyección Eficiente con IntersectionObserver:** Las animaciones complejas (tilt effect, scramble text, hologramas) penalizaban el Time-To-Interactive (TTI). Se solucionó encapsulando la inicialización de observadores visuales en un `IntersectionObserver`, garantizando que el DOM solo renderiza los efectos pesados cuando la tarjeta entra en el Viewport del usuario.
-* **Sintesis Modular de Audio:** En lugar de disparar `AudioContext` en cada clic (lo que causa latencia), se instancian osciladores persistentes con un nodo de ganancia (`GainNode`) en `0`. Al hacer hover o clic, se modula exponencialmente el volumen (`exponentialRampToValueAtTime`), logrando un sonido mecánico instantáneo y libre de clipping (chasquidos de audio).
+* **Síntesis Modular de Audio:** En lugar de disparar `AudioContext` en cada clic (lo que causa latencia), se instancian osciladores persistentes con un nodo de ganancia (`GainNode`) en `0`. Al hacer hover o clic, se modula exponencialmente el volumen (`exponentialRampToValueAtTime`), logrando un sonido mecánico instantáneo y libre de clipping (chasquidos de audio).
+* **Virtual File System (vFS) en memoria:** La terminal implementa un árbol de directorios como objeto JS anidado (`VFS`). La función `resolvePath(targetStr)` interpreta rutas absolutas (`/`), relativas (`..`) y alias de home (`~`), devolviendo el nodo del árbol o un error. Los comandos `ls`, `cd` y `cat` operan sobre este árbol. El prompt del terminal es dinámico (`getPromptHTML()`) y refleja la ruta actual en tiempo real. El autocompletado con `Tab` es consciente del contexto: si el input empieza por `cd`, `cat` o `ls`, busca coincidencias en el `VFS`; si no, busca entre los comandos base.
 
 ---
 
 ## 📊 Estado Actual del Proyecto
 * **Versión actual:** Web personal estable y refactorizada (100% Vanilla JS/CSS). Desplegable de forma inmediata mediante GitHub Pages.
-* **Módulos Críticos:** Terminal simulada (parser de comandos y neofetch dinámico), HUD Canvas activo, Grid 3D interactivo con Warp Speed, Sintetizador de SFX de UI.
-* **Skills Activas:** `.agent/skills/` cuenta con múltiples recetas de componentes (animaciones, audio, terminal).
-* **Specs Implementadas:** Especificación "Operación Supernova" e "Inmersión Dinámica" desarrolladas con éxito e integradas en `main.js`.
+* **Módulos Críticos:** Terminal simulada con vFS navegable (`cd`, `ls`, `cat`), historial de comandos (flechas), autocompletado avanzado de comandos y rutas (Tab), `neofetch` dinámico en tiempo real, HUD Canvas activo, Grid 3D interactivo con Warp Speed y Sintetizador de SFX de UI.
+* **Skills Activas:** `.agent/skills/` cuenta con múltiples recetas de componentes, incluyendo la nueva `crear_sistema_archivos_virtual.md`.
+* **Specs Implementadas:** `Operación Supernova`, `Inmersión Dinámica`, `Terminal Avanzada` y `VFS Terminal` desarrolladas con éxito e integradas en `main.js`.
 
 ---
 
 ## 🗺️ Roadmap de Mejoras Sugeridas (Futuros Pasos)
 Si deseas expandir el proyecto, aquí hay ideas altamente recomendadas que se pueden abordar en las siguientes sesiones:
-* [x] **Sistema de Autocompletado (Tab) en Terminal:** Implementar la detección de la tecla `Tab` en el input de la terminal simulada para autocompletar comandos disponibles (`whoami`, `neofetch`, `skills`).
-* [x] **Historial de Comandos (Flechas Arriba/Abajo):** Mantener un array temporal en JS con los comandos ejecutados por el usuario, permitiendo navegar por ellos usando las flechas de dirección.
-* [ ] **Modo "Hacker" / CRT Filter:** Añadir un botón o un comando secreto (`sudo hacker`) que inyecte globalmente una capa de scanlines y ligera aberración cromática imitando un monitor CRT antiguo.
-* [ ] **Sistema de Archivos Simulado (vFS):** Expandir el comando `ls` para permitir al usuario hacer `cd` dentro de las carpetas de los proyectos (ej. `cd arch-installer`), leyendo la estructura de un objeto JSON precargado.
+* [x] **Sistema de Autocompletado (Tab) en Terminal:** Implementado. Autocompletado de comandos y de rutas del vFS con `Tab`.
+* [x] **Historial de Comandos (Flechas Arriba/Abajo):** Implementado. Navegación por historial de sesión.
+* [x] **Sistema de Archivos Simulado (vFS):** Implementado. Comandos `ls [dir]`, `cd [dir]`, `cat [file]` funcionando sobre el árbol `VFS`. Prompt dinámico que refleja el directorio actual.
+* [ ] **Modo "Hacker" / CRT Filter:** Añadir un comando secreto (`sudo hacker`) que inyecte globalmente una capa de scanlines y aberración cromática imitando un monitor CRT antiguo.
+
+## Cosas por hacer antes de cualquier otra cosa (Para la próxima sesión):
+* [ ] Cambiar el nombre del proyecto `arch-installer` a `instalador-arch`.
+* [ ] Cuando se escribe `cd ...` (cualquier proyecto), veo que primero se hace el scroll hacia abajo, luego se abre la "tarjeta" y por último se produce la animación en el fondo. Eso hace que quede mal, primero debería de abrirse la tarjeta y una vez abierta, que se produzca el scroll hacia abajo mientras el fondo se anima. Para que quede clean.

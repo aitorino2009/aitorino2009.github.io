@@ -212,12 +212,81 @@ function initInteractiveTerminal() {
   const historyBox = document.getElementById('cmd-history');
   if (!input || !historyBox) return;
 
-  const promptHTML = `<span class="t-user">aitor</span><span class="t-at">@</span><span class="t-host">portfolio</span><span class="t-path">:~$</span> `;
+  // ------------------------------------------
+  // VIRTUAL FILE SYSTEM (vFS)
+  // ------------------------------------------
+  const VFS = {
+    "chromebook": {
+      "leeme.txt": "Proyecto: Resurrecci\u00f3n del Chromebook N22\n\nTransform\u00e9 un Lenovo N22 con ChromeOS obsoleto en una m\u00e1quina\ndual-boot con Windows 11 Pro y Arch Linux + Hyprland.\n\nEl reto: disco eMMC soldado de solo 30 GB.\nSoluci\u00f3n: particionado quir\u00fargico, desbloqueo de firmware y drivers\nde audio y teclado espec\u00edficos para Celeron."
+    },
+    "endeavouros": {
+      "info.txt": "Proyecto: Instalaci\u00f3n y Configuraci\u00f3n de EndeavourOS\n\nPr\u00e1ctica de instalaci\u00f3n del m\u00f3dulo SOM (1\u00ba SMR).\nEleg\u00ed EndeavourOS \u2014 Arch-based con instalador gr\u00e1fico \u2014 para profundizar\nm\u00e1s all\u00e1 del temario. Instalada en hardware real: Intel i5-7500, 8GB RAM.",
+      "notas.md": "## Por qu\u00e9 EndeavourOS\n\nArch puro requiere instalaci\u00f3n desde TTY.\nEndeavour mantiene esa filosof\u00eda con instalador gr\u00e1fico:\nideal para entender el sistema real sin perderse en el particionado."
+    },
+    "arch-installer": {
+      "instalador.sh": "#!/bin/bash\n# Instalador Autom\u00e1tico de Arch Linux v3.x\n# Autor: aitorino2009 | GitHub: https://github.com/aitorino2009\n# Licencia: MIT\nset -euo pipefail\n\necho '=== Arch Linux Auto-Installer ==='",
+      "readme.md": "::url::https://github.com/aitorino2009/arch-installer#readme",
+      "cifrado.conf": "# Configuraci\u00f3n LUKS2\n# Cifrado: aes-xts-plain64\n# Tama\u00f1o de clave: 512 bits\n# Hash: sha256\n# Tiempo de iteraci\u00f3n: 2000ms"
+    },
+    "github": {
+      "enlaces.txt": "Perfil de GitHub:\n\ud83d\udc49 https://github.com/aitorino2009\n\nRepositorios destacados:\n  - arch-installer  (Script Bash producci\u00f3n)\n  - aitorino2009.github.io  (Este portfolio)"
+    },
+    "acerca.txt": "\u00a1Hola! Soy Aitor Portales Cresp\u00ed.\nEstudiante de SMR (Sistemas Microinform\u00e1ticos y Redes).\nApasionado por GNU/Linux, la automatizaci\u00f3n y el desarrollo web Vanilla puro.\nUbicaci\u00f3n: Mallorca \ud83d\udccd | Buscando pr\u00e1cticas."
+  };
 
-  // Estado para Terminal Avanzada
+  // Mapa: nombre de carpeta \u2192 ID de proyecto en el DOM
+  const VFS_PROJECT_MAP = {
+    'chromebook': 'p1',
+    'endeavouros': 'p2',
+    'arch-installer': 'p3'
+  };
+  
+  let currentPath = []; // [] === '~'
+
+  const getPromptHTML = () => {
+    const pathStr = currentPath.length === 0 ? '~' : '~/' + currentPath.join('/');
+    return `<span class="t-user">aitor</span><span class="t-at">@</span><span class="t-host">portfolio</span><span class="t-path">:${pathStr}$</span> `;
+  };
+
+  const resolvePath = (targetStr) => {
+    if (!targetStr || targetStr === '.') return { node: VFS, isDir: true, error: null, resolvedPath: currentPath };
+    let tempPath = [...currentPath];
+    if (targetStr.startsWith('/')) tempPath = []; 
+    if (targetStr.startsWith('~')) {
+      tempPath = [];
+      targetStr = targetStr.substring(1);
+      if (targetStr.startsWith('/')) targetStr = targetStr.substring(1);
+    }
+
+    const parts = targetStr.split('/').filter(p => p !== '' && p !== '.');
+    let currentNode = VFS;
+    for (let p of tempPath) currentNode = currentNode[p];
+
+    for (let part of parts) {
+      if (part === '..') {
+        if (tempPath.length > 0) {
+          tempPath.pop();
+          currentNode = VFS;
+          for (let p of tempPath) currentNode = currentNode[p];
+        }
+      } else {
+        if (typeof currentNode === 'object' && currentNode !== null && part in currentNode) {
+          currentNode = currentNode[part];
+          tempPath.push(part);
+        } else {
+          return { error: `No such file or directory` };
+        }
+      }
+    }
+    return { node: currentNode, isDir: typeof currentNode === 'object', resolvedPath: tempPath, error: null };
+  };
+
+  // ------------------------------------------
+  // ESTADO Y NAVEGACIÓN
+  // ------------------------------------------
   const cmdHistory = [];
   let historyIndex = -1;
-  const AVAILABLE_COMMANDS = ['help', 'clear', 'whoami', 'ls', 'skills', 'hire', 'sudo', 'neofetch'];
+  const BASE_COMMANDS = ['help', 'clear', 'whoami', 'ls', 'cd', 'cat', 'skills', 'hire', 'sudo', 'neofetch'];
 
   const moveCursorToEnd = (el) => {
     const range = document.createRange();
@@ -229,7 +298,6 @@ function initInteractiveTerminal() {
   };
 
   input.addEventListener('keydown', (e) => {
-    // Ctrl+L = limpiar terminal (como en cualquier shell real)
     if (e.ctrlKey && e.key === 'l') {
       e.preventDefault();
       historyBox.innerHTML = '';
@@ -238,40 +306,60 @@ function initInteractiveTerminal() {
       return;
     }
 
-    // Autocompletado (Tab)
+    // Autocompletado (Tab) Avanzado
     if (e.key === 'Tab') {
       e.preventDefault();
-      const currentText = input.innerText.trim().toLowerCase();
-      if (!currentText) return;
+      const currentText = input.innerText.toLowerCase();
+      if (!currentText.trim()) return;
       
-      const matches = AVAILABLE_COMMANDS.filter(cmd => cmd.startsWith(currentText));
+      const parts = currentText.split(' ');
+      let matches = [];
+      let prefixToReplace = '';
+
+      if (parts.length === 1) {
+        matches = BASE_COMMANDS.filter(cmd => cmd.startsWith(parts[0]));
+        prefixToReplace = parts[0];
+      } else {
+        const cmd = parts[0];
+        if (['cd', 'cat', 'ls'].includes(cmd)) {
+          const target = parts[parts.length - 1]; 
+          const lastSlash = target.lastIndexOf('/');
+          const baseDirStr = lastSlash !== -1 ? target.substring(0, lastSlash) : '';
+          const searchPrefix = lastSlash !== -1 ? target.substring(lastSlash + 1) : target;
+          
+          const res = resolvePath(baseDirStr);
+          if (!res.error && res.isDir) {
+            matches = Object.keys(res.node).filter(k => k.startsWith(searchPrefix));
+            // Añadir '/' si es carpeta para hacer la experiencia más real
+            matches = matches.map(m => typeof res.node[m] === 'object' ? m + '/' : m);
+            prefixToReplace = searchPrefix;
+          }
+        }
+      }
+
       if (matches.length === 1) {
-        input.innerText = matches[0];
+        const completion = matches[0].substring(prefixToReplace.length);
+        input.innerText += completion;
         moveCursorToEnd(input);
       } else if (matches.length > 1) {
-        // Modo Bash clásico: imprimir múltiples opciones
-        historyBox.innerHTML += `<div class="t-line">${promptHTML}<span class="t-cmd">${currentText}</span></div>`;
+        historyBox.innerHTML += `<div class="t-line">${getPromptHTML()}<span class="t-cmd">${currentText}</span></div>`;
         historyBox.innerHTML += `<div class="out" style="color: var(--cyan)">${matches.join('   ')}</div>`;
         historyBox.scrollTop = historyBox.scrollHeight;
       }
       return;
     }
 
-    // Historial de comandos (Flecha Arriba)
+    // Historial
     if (e.key === 'ArrowUp') {
       e.preventDefault();
       if (cmdHistory.length === 0) return;
-      if (historyIndex === -1) {
-        historyIndex = cmdHistory.length - 1;
-      } else if (historyIndex > 0) {
-        historyIndex--;
-      }
+      if (historyIndex === -1) historyIndex = cmdHistory.length - 1;
+      else if (historyIndex > 0) historyIndex--;
       input.innerText = cmdHistory[historyIndex];
       moveCursorToEnd(input);
       return;
     }
 
-    // Historial de comandos (Flecha Abajo)
     if (e.key === 'ArrowDown') {
       e.preventDefault();
       if (historyIndex !== -1) {
@@ -292,28 +380,22 @@ function initInteractiveTerminal() {
       e.preventDefault();
       let cmd = input.innerText.trim();
       
-      // Si el usuario pulsa Enter en blanco, ejecutamos el placeholder (help)
-      if (cmd === '') {
-        cmd = 'help';
-      } else {
-        // Añadir comando validado al historial
-        if (cmdHistory[cmdHistory.length - 1] !== cmd) {
-          cmdHistory.push(cmd);
-        }
-        historyIndex = -1; // Resetear índice tras ejecutar
+      if (cmd === '') cmd = 'help';
+      else {
+        if (cmdHistory[cmdHistory.length - 1] !== cmd) cmdHistory.push(cmd);
+        historyIndex = -1;
       }
 
-      // Quitamos la clase pristine para que no vuelva a salir el placeholder en los siguientes comandos
       const promptDiv = input.closest('.terminal-prompt');
       if (promptDiv) promptDiv.classList.remove('terminal-pristine');
 
-      historyBox.innerHTML += `<div class="t-line">${promptHTML}<span class="t-cmd">${cmd}</span></div>`;
+      historyBox.innerHTML += `<div class="t-line">${getPromptHTML()}<span class="t-cmd">${cmd}</span></div>`;
       
-      const args = cmd.toLowerCase().split(' ');
-      const command = args[0];
+      const args = cmd.split(' ').filter(a => a !== '');
+      const command = args[0].toLowerCase();
 
       if (command === 'help') {
-        historyBox.innerHTML += `<div class="out">Comandos disponibles:<br>  whoami   - Ver perfil<br>  ls       - Listar proyectos<br>  skills   - Listar tecnologías<br>  neofetch - Información del sistema<br>  clear    - Limpiar terminal<br>  hire     - Contactar</div>`;
+        historyBox.innerHTML += `<div class="out">Comandos disponibles:<br>  whoami    - Ver perfil<br>  ls [dir]  - Listar archivos<br>  tree [dir]- Árbol de directorios<br>  cd [dir]  - Navegar (proyectos: se abren solos)<br>  cat [file]- Leer archivo<br>  skills    - Listar tecnologías<br>  neofetch  - Info sistema<br>  clear     - Limpiar<br>  hire      - Contactar</div>`;
       } else if (command === 'clear') {
         historyBox.innerHTML = '';
         if (promptDiv) promptDiv.classList.add('terminal-pristine');
@@ -339,7 +421,7 @@ function initInteractiveTerminal() {
     -------------------------<br>
     <span style="color: var(--cyan); font-weight: bold;">OS:</span> AitorOS v2.4.1 (Web)<br>
     <span style="color: var(--cyan); font-weight: bold;">Host:</span> Portfolio Sysadmin<br>
-    <span style="color: var(--cyan); font-weight: bold;">Kernel:</span> JS-Vanilla-1.0<br>
+    <span style="color: var(--cyan); font-weight: bold;">Kernel:</span> JS-Vanilla-vFS-1.0<br>
     <span style="color: var(--cyan); font-weight: bold;">Uptime:</span> <span class="nf-live-uptime">${up}</span><br>
     <span style="color: var(--cyan); font-weight: bold;">Shell:</span> bash-sim<br>
     <span style="color: var(--cyan); font-weight: bold;">Resolution:</span> <span class="nf-live-res">${res}</span><br>
@@ -357,22 +439,99 @@ function initInteractiveTerminal() {
   </div>
 </div>`;
       } else if (command === 'ls') {
-        historyBox.innerHTML += `<div class="out" style="color: var(--cyan)">chromebook/   endeavouros/   github/</div>`;
+        const target = args[1] || '.';
+        const res = resolvePath(target);
+        if (res.error) historyBox.innerHTML += `<div class="out">ls: ${target}: ${res.error}</div>`;
+        else if (!res.isDir) historyBox.innerHTML += `<div class="out">${target}</div>`;
+        else {
+          const keys = Object.keys(res.node);
+          if (keys.length > 0) {
+            const formatted = keys.map(k => typeof res.node[k] === 'object' ? `<span style="color:var(--cyan); font-weight:bold">${k}/</span>` : k).join('   ');
+            historyBox.innerHTML += `<div class="out">${formatted}</div>`;
+          }
+        }
+      } else if (command === 'cd') {
+        const target = args[1] || '~';
+        const res = resolvePath(target);
+        if (res.error) historyBox.innerHTML += `<div class="out">cd: ${target}: ${res.error}</div>`;
+        else if (!res.isDir) historyBox.innerHTML += `<div class="out">cd: ${target}: Not a directory</div>`;
+        else {
+          currentPath = res.resolvedPath;
+          const promptSpan = input.parentElement.querySelector('.t-path');
+          if (promptSpan) {
+            const pathStr = currentPath.length === 0 ? '~' : '~/' + currentPath.join('/');
+            promptSpan.innerText = `:${pathStr}$`;
+          }
+          // Si la carpeta es un proyecto, hacer scroll y abrir el acordeón
+          const topFolder = res.resolvedPath[0];
+          const projectId = topFolder ? VFS_PROJECT_MAP[topFolder] : null;
+          if (projectId && window.toggleProject) {
+            historyBox.innerHTML += `<div class="out" style="color:var(--cyan)">→ Abriendo proyecto en pantalla...</div>`;
+            historyBox.scrollTop = historyBox.scrollHeight;
+            setTimeout(() => {
+              const projectEl = document.getElementById(projectId);
+              if (projectEl) {
+                projectEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                setTimeout(() => window.toggleProject(projectId), 600);
+              }
+            }, 300);
+          }
+        }
+      } else if (command === 'cat') {
+        const target = args[1];
+        if (!target) historyBox.innerHTML += `<div class="out">cat: missing operand</div>`;
+        else {
+          const res = resolvePath(target);
+          if (res.error) historyBox.innerHTML += `<div class="out">cat: ${target}: ${res.error}</div>`;
+          else if (res.isDir) historyBox.innerHTML += `<div class="out">cat: ${target}: Is a directory</div>`;
+          else if (typeof res.node === 'string' && res.node.startsWith('::url::')) {
+            const url = res.node.replace('::url::', '');
+            historyBox.innerHTML += `<div class="out" style="color:var(--cyan)">→ Abriendo documentación en GitHub...<br><a href="${url}" target="_blank" style="color:var(--green)">${url}</a></div>`;
+            setTimeout(() => window.open(url, '_blank'), 400);
+          } else {
+            historyBox.innerHTML += `<div class="out" style="white-space: pre-wrap; font-family: monospace;">${res.node}</div>`;
+          }
+        }
+      } else if (command === 'tree') {
+        const target = args[1] || '.';
+        const res = resolvePath(target);
+        if (res.error) {
+          historyBox.innerHTML += `<div class="out">tree: ${target}: ${res.error}</div>`;
+        } else if (!res.isDir) {
+          historyBox.innerHTML += `<div class="out">${target}</div>`;
+        } else {
+          const buildTree = (node, prefix = '') => {
+            const keys = Object.keys(node);
+            let out = '';
+            keys.forEach((k, i) => {
+              const isLast = i === keys.length - 1;
+              const connector = isLast ? '└── ' : '├── ';
+              const childPrefix = prefix + (isLast ? '    ' : '│   ');
+              if (typeof node[k] === 'object') {
+                out += `${prefix}${connector}<span style="color:var(--cyan);font-weight:bold">${k}/</span>\n`;
+                out += buildTree(node[k], childPrefix);
+              } else {
+                out += `${prefix}${connector}${k}\n`;
+              }
+            });
+            return out;
+          };
+          const dirName = res.resolvedPath.length > 0 ? res.resolvedPath[res.resolvedPath.length - 1] + '/' : '~/';
+          historyBox.innerHTML += `<div class="out" style="white-space:pre;font-family:monospace"><span style="color:var(--cyan);font-weight:bold">${dirName}</span>\n${buildTree(res.node)}</div>`;
+        }
       } else if (command === 'skills') {
         historyBox.innerHTML += `<div class="out">Linux, Bash, Redes, Arch, Windows Server, Python, Git, HTML/CSS/JS</div>`;
       } else if (command === 'hire' || command === 'sudo') {
         historyBox.innerHTML += `<div class="out" style="color: var(--green)">Iniciando protocolo de contratación...<br>Email: <a href="#contact" style="color:var(--green)">[Haga clic aquí o baje a Contacto]</a></div>`;
-      } else if (cmd !== '') {
+      } else {
         historyBox.innerHTML += `<div class="out">bash: ${command}: command not found</div>`;
       }
       
       input.innerText = '';
-      // Scroll al final del historial
       historyBox.scrollTop = historyBox.scrollHeight;
     }
   });
 
-  // Mantener la resolución del neofetch actualizada en vivo
   window.addEventListener('resize', () => {
     const liveRes = `${window.innerWidth}x${window.innerHeight}`;
     document.querySelectorAll('.nf-live-res').forEach(el => el.innerText = liveRes);
