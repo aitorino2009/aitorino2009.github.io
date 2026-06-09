@@ -1,408 +1,449 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <meta name="description" content="Portfolio de Aitor Portales Crespí. Proyectos personales sobre Linux, Redes y Automatización.">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description"
+    content="Portfolio de Aitor Portales Crespí. Proyectos personales sobre Linux, Redes y Automatización.">
   <title>Aitor Portales — Proyectos</title>
-  
+
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
-  
+  <link
+    href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Syne:wght@400;700;800&display=swap"
+    rel="stylesheet">
+
   <!-- Estilos del Proyecto (Vanilla) -->
   <link rel="stylesheet" href="./src/css/variables.css">
   <link rel="stylesheet" href="./src/css/base.css">
   <link rel="stylesheet" href="./src/css/components.css">
   <link rel="stylesheet" href="./src/css/animations.css">
 </head>
+
 <body>
 
-<!-- Cursor Personalizado -->
-<div class="cursor-dot" id="cursor-dot"></div>
-<div class="cursor-ring" id="cursor-ring"></div>
+  <!-- Cursor Personalizado -->
+  <div class="cursor-dot" id="cursor-dot"></div>
+  <div class="cursor-ring" id="cursor-ring"></div>
 
-<!-- Boot Sequence -->
-<div class="boot-sequence" id="boot-sequence">
-  <div class="boot-logs" id="boot-logs"></div>
-</div>
-
-<!-- Canvas Fondo Interactivo -->
-<canvas id="bg-canvas"></canvas>
-
-<nav class="nav-pill">
-  <div class="nav-logo glitch-hover">aitor<span>@</span>portfolio</div>
-  <div class="nav-right">
-    <a href="#projects" class="scanner-link">Proyectos</a>
-    <a href="#github" class="scanner-link">GitHub</a>
-    <a href="#contact" class="scanner-link">Contacto</a>
-    <button id="btn-sound" class="sound-toggle">[ AUDIO: ON ]</button>
+  <!-- Boot Sequence -->
+  <div class="boot-sequence" id="boot-sequence">
+    <div class="boot-logs" id="boot-logs"></div>
   </div>
-</nav>
 
-<div class="wrap">
+  <!-- Canvas Fondo Interactivo -->
+  <canvas id="bg-canvas"></canvas>
 
-  <!-- HERO -->
-  <div class="hero-clean">
-    <div class="hero-content">
-      <p class="hero-eyebrow fade-in d1">// Protocolo Inicializado</p>
-      <h1 class="hero-name fade-in d2">Aitor Portales</h1>
-      <p class="hero-sub fade-in d3">
-        Técnico SMR. Desarrollador por vocación.<br>
-        Construyendo sistemas resilientes en Linux y la Web.
+  <nav class="nav-pill">
+    <div class="nav-logo glitch-hover">aitor<span>@</span>portfolio</div>
+    <div class="nav-right">
+      <a href="#projects" class="scanner-link">Proyectos</a>
+      <a href="#github" class="scanner-link">GitHub</a>
+      <a href="#contact" class="scanner-link">Contacto</a>
+      <button id="btn-sound" class="sound-toggle">[ AUDIO: ON ]</button>
+    </div>
+  </nav>
+
+  <div class="wrap">
+
+    <!-- HERO -->
+    <div class="hero-clean">
+      <div class="hero-content">
+        <p class="hero-eyebrow fade-in d1">// Protocolo Inicializado</p>
+        <h1 class="hero-name fade-in d2">Aitor Portales</h1>
+        <p class="hero-sub fade-in d3">
+          Técnico SMR. Desarrollador por vocación.<br>
+          Construyendo sistemas resilientes en Linux y la Web.
+        </p>
+
+        <!-- Micro-Badges -->
+        <div class="micro-badges-container fade-in d4">
+          <span class="micro-badge"><span class="status-dot"></span> Buscando Prácticas</span>
+          <span class="micro-badge">📍 Mallorca</span>
+          <a href="https://github.com/aitorino2009" target="_blank" class="micro-badge badge-link">↗ GitHub</a>
+        </div>
+      </div>
+
+      <!-- Terminal Interactiva -->
+      <div class="terminal-isometric fade-in d4" style="animation-delay:0.7s"
+        onclick="document.getElementById('cmd-input').focus()">
+        <div class="terminal-prompt terminal-pristine"
+          style="height: 250px; display: flex; flex-direction: column; cursor: text; overflow: hidden;">
+          <div id="cmd-history"
+            style="flex: 1; overflow-y: auto; scrollbar-width: thin; scrollbar-color: rgba(0,255,136,0.3) transparent;">
+            <div class="t-line t-out" style="color: var(--muted); margin-bottom: 10px;">AitorOS v2.4.1 (tty1)<br>Type
+              'help' for a list of commands.</div>
+          </div>
+          <div class="t-line" style="flex-shrink: 0; padding-top: 4px; border-top: 1px solid rgba(0,255,136,0.08);">
+            <span class="t-user">aitor</span><span class="t-at">@</span><span class="t-host">portfolio</span><span
+              class="t-path">:~$</span>
+            <span id="cmd-input" class="t-cmd" contenteditable="true" spellcheck="false" autocomplete="off"
+              autocorrect="off"></span><span class="cursor"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- HUD SYSADMIN -->
+    <div id="sys-hud">
+      <div class="hud-header">
+        <span>sys_monitor_daemon</span>
+      </div>
+      <div class="hud-row">
+        <div class="hud-box">CPU: <span id="hud-cpu" class="hud-val">12.4</span>%</div>
+        <div class="hud-box">NET: <span id="hud-net" class="hud-val">84</span> Mbps</div>
+        <div class="hud-box">UP: <span id="hud-up" class="hud-val">00:00:00</span></div>
+      </div>
+      <canvas id="hud-chart" width="200" height="40"></canvas>
+    </div>
+
+    <!-- PROJECTS -->
+    <div id="projects">
+      <div class="projects-header reveal">
+        <h2 class="scramble">Proyectos</h2>
+        <span class="projects-count">03 proyectos documentados</span>
+      </div>
+
+      <!-- PROJECT 01 -->
+      <div class="project reveal" id="p1">
+        <div class="project-top" onclick="toggleProject('p1')">
+          <div>
+            <p class="project-num">01 / voluntario</p>
+            <h3 class="project-title">Resurrección del Chromebook N22</h3>
+            <p class="project-oneliner">
+              Transformé un Lenovo N22 con ChromeOS obsoleto en una máquina dual-boot
+              con Windows 11 Pro y Arch Linux + Hyprland — todo en un eMMC de 30 GB.
+            </p>
+            <div class="project-badges">
+              <span class="badge badge-green">Voluntario</span>
+              <span class="badge badge-cyan">Arch Linux</span>
+              <span class="badge badge-cyan">Hyprland</span>
+              <span class="badge badge-orange">Hardware real</span>
+              <span class="badge badge-dim">Dual-boot</span>
+            </div>
+          </div>
+          <div class="project-toggle">
+            detalle <span class="arrow">↓</span>
+          </div>
+        </div>
+
+        <div class="project-detail">
+          <div class="project-detail-inner">
+            <div class="detail-block">
+              <h4>El reto</h4>
+              <p>
+                Un Lenovo N22 con ChromeOS descontinuado que ya no recibía actualizaciones.
+                El hardware seguía funcionando — el software lo limitaba.
+                El objetivo: convertirlo en una máquina completamente funcional
+                sin tirar el equipo.
+              </p>
+              <h4 class="mt">El problema técnico real</h4>
+              <p>
+                El disco es un <strong>eMMC soldado de solo 30 GB</strong>.
+                Instalar <strong>Windows 11 Pro</strong> (con sus requisitos mínimos)
+                y <strong>Arch Linux con Hyprland</strong> en ese espacio requirió
+                una planificación cuidadosa del particionado y decidir qué
+                instalar en cada sistema para que ambos fueran viables.
+              </p>
+            </div>
+            <div class="detail-block">
+              <h4>Proceso</h4>
+              <ul>
+                <li>Análisis del hardware y compatibilidad de drivers</li>
+                <li>Desbloqueo del firmware del Chromebook</li>
+                <li>Diseño del esquema de particionado en 30 GB</li>
+                <li>Instalación de Windows 11 Pro con ajuste de espacio</li>
+                <li>Instalación manual de <strong>Arch Linux</strong> desde cero</li>
+                <li>Configuración de <strong>Hyprland</strong> como compositor Wayland</li>
+                <li>Configuración del bootloader dual-boot</li>
+              </ul>
+              <h4 class="mt">Resultado</h4>
+              <p>
+                <strong>Funcionó perfectamente.</strong> Dual-boot operativo entre
+                Windows 11 Pro y Arch Linux con Hyprland. Todo documentado.
+              </p>
+            </div>
+          </div>
+
+          <div class="project-footer">
+            <div class="stack-pills">
+              <span class="pill">Arch Linux</span>
+              <span class="pill">Hyprland</span>
+              <span class="pill">Windows 11</span>
+              <span class="pill">eMMC</span>
+              <span class="pill">dual-boot</span>
+              <span class="pill">particionado</span>
+              <span class="pill">firmware</span>
+            </div>
+            <a class="project-link"
+              href="https://docs.google.com/document/d/1iiWD7zhe7ZtOto3Xele8JX4efWFJFII2Ccg9QgNet0E/edit?usp=sharing"
+              target="_blank">Ver documentación →</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- PROJECT 02 -->
+      <div class="project reveal" id="p2">
+        <div class="project-top" onclick="toggleProject('p2')">
+          <div>
+            <p class="project-num">02 / académico ampliado</p>
+            <h3 class="project-title">Instalación y configuración de Endeavour OS</h3>
+            <p class="project-oneliner">
+              Práctica de instalación del módulo SOM. Elegí Endeavour OS
+              — basada en Arch — por su proximidad al sistema real.
+              Instalada en hardware real.
+            </p>
+            <div class="project-badges">
+              <span class="badge badge-cyan">Arch-based</span>
+              <span class="badge badge-orange">Hardware real</span>
+              <span class="badge badge-dim">CC BY-NC-SA 4.0</span>
+            </div>
+          </div>
+          <div class="project-toggle">
+            detalle <span class="arrow">↓</span>
+          </div>
+        </div>
+
+        <div class="project-detail">
+          <div class="project-detail-inner">
+            <div class="detail-block">
+              <h4>Contexto</h4>
+              <p>
+                Práctica de instalación del módulo SOM (1º SMR).
+                Opté por <strong>Endeavour OS</strong> — distribución Arch-based
+                con instalador gráfico pero sin ocultar la estructura del sistema —
+                por querer profundizar más allá del temario.
+              </p>
+              <h4 class="mt">Por qué Endeavour OS</h4>
+              <p>
+                Arch Linux puro requiere instalación completamente manual desde TTY.
+                Endeavour mantiene esa filosofía con un instalador gráfico, ideal
+                para profundizar en cómo funciona el sistema real sin perderse
+                horas en el particionado.
+              </p>
+            </div>
+            <div class="detail-block">
+              <h4>Contenido del documento</h4>
+              <ul>
+                <li>Análisis de la distro y comparativa con otras opciones</li>
+                <li>Proceso de instalación paso a paso con capturas</li>
+                <li>Configuración del entorno post-instalación</li>
+                <li>Licenciado bajo <strong>CC BY-NC-SA 4.0</strong></li>
+              </ul>
+              <h4 class="mt">Plataforma</h4>
+              <p>Hardware real · Intel Core i5-7500 3.40GHz · 8 GB RAM</p>
+            </div>
+          </div>
+
+          <div class="project-footer">
+            <div class="stack-pills">
+              <span class="pill">Endeavour OS</span>
+              <span class="pill">Arch Linux</span>
+              <span class="pill">Intel i5-7500</span>
+              <span class="pill">hardware real</span>
+              <span class="pill">configuración de entornos</span>
+            </div>
+            <a class="project-link"
+              href="https://docs.google.com/document/d/1aArPYXXUv8zWFP5ljBWw6gfAL4fG3lOFqeuj2AVRWhA/edit?usp=sharing"
+              target="_blank">Ver documentación →</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- PROJECT 03 -->
+      <div class="project reveal" id="p3">
+        <div class="project-top" onclick="toggleProject('p3')">
+          <div>
+            <p class="project-num">03 / personal · open source</p>
+            <h3 class="project-title">Instalador Automático de Arch Linux</h3>
+            <p class="project-oneliner">
+              Script Bash de producción: 3 fases de configuración interactiva, cifrado LUKS2,
+              soporte BTRFS con subvolúmenes, 4 kernels, 6 entornos de escritorio y navegación
+              hacia atrás sin perder estado. Arch Linux completo en 5–10 minutos.
+            </p>
+            <div class="project-badges">
+              <span class="badge badge-green">Open Source</span>
+              <span class="badge badge-cyan">Bash</span>
+              <span class="badge badge-cyan">LUKS2</span>
+              <span class="badge badge-cyan">BTRFS</span>
+              <span class="badge badge-orange">Arch Linux</span>
+              <span class="badge badge-dim">set -euo pipefail</span>
+            </div>
+          </div>
+          <div class="project-toggle">
+            detalle <span class="arrow">↓</span>
+          </div>
+        </div>
+
+        <div class="project-detail">
+          <div class="project-detail-inner">
+            <div class="detail-block">
+              <h4>El problema real</h4>
+              <p>
+                Instalar Arch Linux manualmente implica más de 30 comandos ejecutados en orden exacto:
+                particionado, formateo, montaje, <code>pacstrap</code>, <code>arch-chroot</code>,
+                configuración del bootloader, red, locale, zona horaria, usuarios...
+                Y un solo error en cualquier punto te obliga a empezar desde cero.
+                Hacerlo repetidamente en diferentes máquinas es tiempo perdido de forma sistemática.
+              </p>
+              <h4 class="mt">La solución: un instalador de producción</h4>
+              <p>
+                Un único archivo <code>install.sh</code> con <strong>set -euo pipefail</strong>
+                (ejecución estricta, sin fallos silenciosos) que recorre tres fases de preguntas
+                antes de tocar el disco. <strong>Cualquier pregunta admite pulsar <code>&lt;</code> + Enter
+                  para volver al paso anterior sin perder la configuración ya completada.</strong>
+              </p>
+            </div>
+
+            <div class="detail-block">
+              <h4>Fase 1 — Sistema Base (11 decisiones)</h4>
+              <ul>
+                <li><strong>Detección automática</strong> de discos con modelo y tamaño (<code>lsblk</code>)</li>
+                <li><strong>UEFI vs BIOS/Legacy</strong> detectado automáticamente desde <code>/sys/firmware/efi</code>
+                </li>
+                <li>Swap configurable con validación de formato (<code>8G</code>, <code>512M</code>) y comprobación de
+                  que cabe en el disco</li>
+                <li><strong>Cifrado LUKS</strong> — LUKS2 + Argon2id para <code>systemd-boot</code>, LUKS1 + SHA-256
+                  para GRUB (por compatibilidad). La swap cifrada usa <code>PARTUUID</code> para evitar arranques lentos
+                </li>
+                <li><strong>Sistema de archivos:</strong> <code>ext4</code> (clásico) o <code>btrfs</code> con
+                  subvolúmenes automáticos (<code>@</code>, <code>@home</code>, <code>@snapshots</code>,
+                  <code>@log</code>)</li>
+                <li>Partición <code>/home</code> separada (solo ext4); el espacio restante se asigna automáticamente
+                </li>
+                <li>Hostname, zona horaria (validada contra <code>/usr/share/zoneinfo/</code>), idioma y distribución de
+                  teclado</li>
+                <li><strong>Selección de kernel:</strong> <code>linux</code> · <code>linux-lts</code> ·
+                  <code>linux-zen</code> · <code>linux-hardened</code></li>
+                <li><strong>Bootloader:</strong> <code>GRUB</code> (UEFI + BIOS) · <code>systemd-boot</code> (solo UEFI)
+                </li>
+              </ul>
+            </div>
+
+            <div class="detail-block">
+              <h4>Fase 2 — Usuario y Seguridad</h4>
+              <ul>
+                <li>Nombre de usuario con creación automática en grupos <code>wheel</code>, <code>audio</code>,
+                  <code>video</code>, <code>storage</code></li>
+                <li>Contraseña de <code>root</code> y de usuario con entrada oculta y <strong>doble confirmación
+                    obligatoria</strong></li>
+              </ul>
+              <h4 class="mt">Fase 3 — Entorno Gráfico y Extras</h4>
+              <ul>
+                <li><strong>Driver de vídeo:</strong> Intel · AMD · NVIDIA · VirtualBox · VMware · Ninguno (servidor
+                  headless)</li>
+                <li><strong>Entorno de escritorio:</strong> GNOME · KDE Plasma · XFCE · Hyprland · i3-wm · Todos ·
+                  Ninguno</li>
+                <li><strong>AUR helper:</strong> <code>paru</code> · <code>yay</code> · ninguno</li>
+                <li><strong>Dotfiles:</strong> URL de repositorio git + script de instalación definido por el usuario
+                </li>
+                <li><strong>SSH:</strong> habilita <code>sshd</code> al arranque con un solo paso</li>
+              </ul>
+            </div>
+
+            <div class="detail-block">
+              <h4>Ingeniería interna destacada</h4>
+              <ul>
+                <li><strong>Máquina de estados:</strong> <code>HISTORIAL[]</code> + <code>PASO</code> permiten navegar
+                  hacia atrás sin perder datos de cada fase</li>
+                <li><strong>UI coloreada completa:</strong> funciones <code>log()</code>, <code>warn()</code>,
+                  <code>error()</code>, <code>step()</code>, <code>pick()</code> con ANSI para una experiencia visual
+                  profesional en TTY</li>
+                <li><strong>Validación real:</strong> verifica existencia del disco, formato de tamaños, que el swap no
+                  supera el espacio disponible y que las contraseñas coinciden</li>
+                <li><strong>Zero configuración manual posterior:</strong> el sistema arranca completamente listo
+                  incluyendo entorno gráfico, AUR helper y dotfiles personales</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="project-footer">
+            <div class="stack-pills">
+              <span class="pill">Bash</span>
+              <span class="pill">LUKS2 / Argon2id</span>
+              <span class="pill">BTRFS subvols</span>
+              <span class="pill">GRUB / systemd-boot</span>
+              <span class="pill">pacstrap</span>
+              <span class="pill">arch-chroot</span>
+              <span class="pill">4 kernels</span>
+              <span class="pill">Hyprland · KDE · GNOME</span>
+              <span class="pill">paru / yay</span>
+            </div>
+            <a class="project-link" href="https://github.com/aitorino2009/Instalador-Arch-Linux" target="_blank">Ver
+              código en GitHub →</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- TECH MARQUEE -->
+    <div class="tech-marquee-container reveal">
+      <div class="tech-marquee-track">
+        <!-- Repetimos la lista 2 veces para que el scroll sea infinito continuo -->
+        <div class="tech-marquee-content">
+          <span>Linux</span> <span class="dot">•</span>
+          <span>Bash</span> <span class="dot">•</span>
+          <span>Arch</span> <span class="dot">•</span>
+          <span>Redes</span> <span class="dot">•</span>
+          <span>Python</span> <span class="dot">•</span>
+          <span>Vanilla JS</span> <span class="dot">•</span>
+          <span>Windows Server</span> <span class="dot">•</span>
+          <span>Git</span> <span class="dot">•</span>
+          <span>Docker</span> <span class="dot">•</span>
+        </div>
+        <div class="tech-marquee-content">
+          <span>Linux</span> <span class="dot">•</span>
+          <span>Bash</span> <span class="dot">•</span>
+          <span>Arch</span> <span class="dot">•</span>
+          <span>Redes</span> <span class="dot">•</span>
+          <span>Python</span> <span class="dot">•</span>
+          <span>Vanilla JS</span> <span class="dot">•</span>
+          <span>Windows Server</span> <span class="dot">•</span>
+          <span>Git</span> <span class="dot">•</span>
+          <span>Docker</span> <span class="dot">•</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- GITHUB -->
+    <div id="github" class="reveal"
+      style="padding: 4rem 0 2rem; border-top: 1px solid rgba(255,255,255,0.05); margin-top: 2rem;">
+      <p class="section-label">// github</p>
+      <h2
+        style="font-family:var(--font-sans); font-weight:800; font-size:1.8rem; letter-spacing:-0.02em; margin-bottom:0.6rem;">
+        Repositorios</h2>
+      <p style="color:var(--muted); font-size:0.85rem; margin-bottom:2rem;">Código, scripts y experimentos en progreso.
       </p>
-      
-      <!-- Micro-Badges -->
-      <div class="micro-badges-container fade-in d4">
-        <span class="micro-badge"><span class="status-dot"></span> Buscando Prácticas</span>
-        <span class="micro-badge">📍 Mallorca</span>
-        <a href="https://github.com/aitorino2009" target="_blank" class="micro-badge badge-link">↗ GitHub</a>
-      </div>
-    </div>
-    
-    <!-- Terminal Interactiva -->
-    <div class="terminal-isometric fade-in d4" style="animation-delay:0.7s" onclick="document.getElementById('cmd-input').focus()">
-      <div class="terminal-prompt terminal-pristine" style="height: 250px; display: flex; flex-direction: column; cursor: text; overflow: hidden;">
-        <div id="cmd-history" style="flex: 1; overflow-y: auto; scrollbar-width: thin; scrollbar-color: rgba(0,255,136,0.3) transparent;">
-          <div class="t-line t-out" style="color: var(--muted); margin-bottom: 10px;">AitorOS v2.4.1 (tty1)<br>Type 'help' for a list of commands.</div>
-        </div>
-        <div class="t-line" style="flex-shrink: 0; padding-top: 4px; border-top: 1px solid rgba(0,255,136,0.08);">
-          <span class="t-user">aitor</span><span class="t-at">@</span><span class="t-host">portfolio</span><span class="t-path">:~$</span>
-          <span id="cmd-input" class="t-cmd" contenteditable="true" spellcheck="false" autocomplete="off" autocorrect="off"></span><span class="cursor"></span>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- HUD SYSADMIN -->
-  <div id="sys-hud">
-    <div class="hud-header">
-      <span>sys_monitor_daemon</span>
-    </div>
-    <div class="hud-row">
-      <div class="hud-box">CPU: <span id="hud-cpu" class="hud-val">12.4</span>%</div>
-      <div class="hud-box">NET: <span id="hud-net" class="hud-val">84</span> Mbps</div>
-      <div class="hud-box">UP: <span id="hud-up" class="hud-val">00:00:00</span></div>
-    </div>
-    <canvas id="hud-chart" width="200" height="40"></canvas>
-  </div>
-
-  <!-- PROJECTS -->
-  <div id="projects">
-    <div class="projects-header reveal">
-      <h2 class="scramble">Proyectos</h2>
-      <span class="projects-count">03 proyectos documentados</span>
-    </div>
-
-    <!-- PROJECT 01 -->
-    <div class="project reveal" id="p1">
-      <div class="project-top" onclick="toggleProject('p1')">
-        <div>
-          <p class="project-num">01 / voluntario</p>
-          <h3 class="project-title">Resurrección del Chromebook N22</h3>
-          <p class="project-oneliner">
-            Transformé un Lenovo N22 con ChromeOS obsoleto en una máquina dual-boot
-            con Windows 11 Pro y Arch Linux + Hyprland — todo en un eMMC de 30 GB.
-          </p>
-          <div class="project-badges">
-            <span class="badge badge-green">Voluntario</span>
-            <span class="badge badge-cyan">Arch Linux</span>
-            <span class="badge badge-cyan">Hyprland</span>
-            <span class="badge badge-orange">Hardware real</span>
-            <span class="badge badge-dim">Dual-boot</span>
-          </div>
-        </div>
-        <div class="project-toggle">
-          detalle <span class="arrow">↓</span>
-        </div>
-      </div>
-
-      <div class="project-detail">
-        <div class="project-detail-inner">
-          <div class="detail-block">
-            <h4>El reto</h4>
-            <p>
-              Un Lenovo N22 con ChromeOS descontinuado que ya no recibía actualizaciones.
-              El hardware seguía funcionando — el software lo limitaba.
-              El objetivo: convertirlo en una máquina completamente funcional
-              sin tirar el equipo.
-            </p>
-            <h4 class="mt">El problema técnico real</h4>
-            <p>
-              El disco es un <strong>eMMC soldado de solo 30 GB</strong>.
-              Instalar <strong>Windows 11 Pro</strong> (con sus requisitos mínimos)
-              y <strong>Arch Linux con Hyprland</strong> en ese espacio requirió
-              una planificación cuidadosa del particionado y decidir qué
-              instalar en cada sistema para que ambos fueran viables.
-            </p>
-          </div>
-          <div class="detail-block">
-            <h4>Proceso</h4>
-            <ul>
-              <li>Análisis del hardware y compatibilidad de drivers</li>
-              <li>Desbloqueo del firmware del Chromebook</li>
-              <li>Diseño del esquema de particionado en 30 GB</li>
-              <li>Instalación de Windows 11 Pro con ajuste de espacio</li>
-              <li>Instalación manual de <strong>Arch Linux</strong> desde cero</li>
-              <li>Configuración de <strong>Hyprland</strong> como compositor Wayland</li>
-              <li>Configuración del bootloader dual-boot</li>
-            </ul>
-            <h4 class="mt">Resultado</h4>
-            <p>
-              <strong>Funcionó perfectamente.</strong> Dual-boot operativo entre
-              Windows 11 Pro y Arch Linux con Hyprland. Todo documentado.
-            </p>
-          </div>
-        </div>
-        
-        <div class="project-footer">
-          <div class="stack-pills">
-            <span class="pill">Arch Linux</span>
-            <span class="pill">Hyprland</span>
-            <span class="pill">Windows 11</span>
-            <span class="pill">eMMC</span>
-            <span class="pill">dual-boot</span>
-            <span class="pill">particionado</span>
-            <span class="pill">firmware</span>
-          </div>
-          <a class="project-link" href="https://docs.google.com/document/d/1iiWD7zhe7ZtOto3Xele8JX4efWFJFII2Ccg9QgNet0E/edit?usp=sharing" target="_blank">Ver documentación →</a>
-        </div>
+      <div class="repos-grid">
+        <a class="repo-card" href="https://github.com/aitorino2009" target="_blank">
+          <p class="repo-name">↗ github.com/aitorino2009</p>
+          <p class="repo-desc">Python, JavaScript, Bash. Proyectos en activo.</p>
+        </a>
       </div>
     </div>
 
-    <!-- PROJECT 02 -->
-    <div class="project reveal" id="p2">
-      <div class="project-top" onclick="toggleProject('p2')">
-        <div>
-          <p class="project-num">02 / académico ampliado</p>
-          <h3 class="project-title">Instalación y configuración de Endeavour OS</h3>
-          <p class="project-oneliner">
-            Práctica de instalación del módulo SOM. Elegí Endeavour OS
-            — basada en Arch — por su proximidad al sistema real.
-            Instalada en hardware real.
-          </p>
-          <div class="project-badges">
-            <span class="badge badge-cyan">Arch-based</span>
-            <span class="badge badge-orange">Hardware real</span>
-            <span class="badge badge-dim">CC BY-NC-SA 4.0</span>
-          </div>
-        </div>
-        <div class="project-toggle">
-          detalle <span class="arrow">↓</span>
-        </div>
+    <!-- CONTACT -->
+    <div class="contact-strip reveal" id="contact">
+      <div class="cs-text">
+        <h3>¿Hablamos?</h3>
+        <p>Abierto a prácticas y oportunidades en el sector TI.</p>
       </div>
-
-      <div class="project-detail">
-        <div class="project-detail-inner">
-          <div class="detail-block">
-            <h4>Contexto</h4>
-            <p>
-              Práctica de instalación del módulo SOM (1º SMR).
-              Opté por <strong>Endeavour OS</strong> — distribución Arch-based
-              con instalador gráfico pero sin ocultar la estructura del sistema —
-              por querer profundizar más allá del temario.
-            </p>
-            <h4 class="mt">Por qué Endeavour OS</h4>
-            <p>
-              Arch Linux puro requiere instalación completamente manual desde TTY.
-              Endeavour mantiene esa filosofía con un instalador gráfico, ideal
-              para profundizar en cómo funciona el sistema real sin perderse
-              horas en el particionado.
-            </p>
-          </div>
-          <div class="detail-block">
-            <h4>Contenido del documento</h4>
-            <ul>
-              <li>Análisis de la distro y comparativa con otras opciones</li>
-              <li>Proceso de instalación paso a paso con capturas</li>
-              <li>Configuración del entorno post-instalación</li>
-              <li>Licenciado bajo <strong>CC BY-NC-SA 4.0</strong></li>
-            </ul>
-            <h4 class="mt">Plataforma</h4>
-            <p>Hardware real · Intel Core i5-7500 3.40GHz · 8 GB RAM</p>
-          </div>
-        </div>
-        
-        <div class="project-footer">
-          <div class="stack-pills">
-            <span class="pill">Endeavour OS</span>
-            <span class="pill">Arch Linux</span>
-            <span class="pill">Intel i5-7500</span>
-            <span class="pill">hardware real</span>
-            <span class="pill">configuración de entornos</span>
-          </div>
-          <a class="project-link" href="https://docs.google.com/document/d/1aArPYXXUv8zWFP5ljBWw6gfAL4fG3lOFqeuj2AVRWhA/edit?usp=sharing" target="_blank">Ver documentación →</a>
-        </div>
-      </div>
-    </div>
-
-    <!-- PROJECT 03 -->
-    <div class="project reveal" id="p3">
-      <div class="project-top" onclick="toggleProject('p3')">
-        <div>
-          <p class="project-num">03 / personal · open source</p>
-          <h3 class="project-title">Instalador Automático de Arch Linux</h3>
-          <p class="project-oneliner">
-            Script Bash de producción: 3 fases de configuración interactiva, cifrado LUKS2,
-            soporte BTRFS con subvolúmenes, 4 kernels, 6 entornos de escritorio y navegación
-            hacia atrás sin perder estado. Arch Linux completo en 5–10 minutos.
-          </p>
-          <div class="project-badges">
-            <span class="badge badge-green">Open Source</span>
-            <span class="badge badge-cyan">Bash</span>
-            <span class="badge badge-cyan">LUKS2</span>
-            <span class="badge badge-cyan">BTRFS</span>
-            <span class="badge badge-orange">Arch Linux</span>
-            <span class="badge badge-dim">set -euo pipefail</span>
-          </div>
-        </div>
-        <div class="project-toggle">
-          detalle <span class="arrow">↓</span>
-        </div>
-      </div>
-
-      <div class="project-detail">
-        <div class="project-detail-inner">
-          <div class="detail-block">
-            <h4>El problema real</h4>
-            <p>
-              Instalar Arch Linux manualmente implica más de 30 comandos ejecutados en orden exacto:
-              particionado, formateo, montaje, <code>pacstrap</code>, <code>arch-chroot</code>,
-              configuración del bootloader, red, locale, zona horaria, usuarios...
-              Un solo error en cualquier punto obliga a empezar desde cero.
-              Hacerlo repetidamente en diferentes máquinas es tiempo perdido de forma sistemática.
-            </p>
-            <h4 class="mt">La solución: un instalador de producción</h4>
-            <p>
-              Un único archivo <code>install.sh</code> con <strong>set -euo pipefail</strong>
-              (ejecución estricta, sin fallos silenciosos) que recorre tres fases de preguntas
-              antes de tocar el disco. <strong>Cualquier pregunta admite <code>&lt;</code> + Enter
-              para volver al paso anterior sin perder la configuración ya completada.</strong>
-            </p>
-          </div>
-
-          <div class="detail-block">
-            <h4>Fase 1 — Sistema Base (11 decisiones)</h4>
-            <ul>
-              <li><strong>Detección automática</strong> de discos con modelo y tamaño (<code>lsblk</code>)</li>
-              <li><strong>UEFI vs BIOS/Legacy</strong> detectado automáticamente desde <code>/sys/firmware/efi</code></li>
-              <li>Swap configurable con validación de formato (<code>8G</code>, <code>512M</code>) y comprobación de que cabe en el disco</li>
-              <li><strong>Cifrado LUKS</strong> — LUKS2 + Argon2id para <code>systemd-boot</code>, LUKS1 + SHA-256 para GRUB (por compatibilidad). La swap cifrada usa <code>PARTUUID</code> para evitar arranques lentos</li>
-              <li><strong>Sistema de archivos:</strong> <code>ext4</code> (clásico) o <code>btrfs</code> con subvolúmenes automáticos (<code>@</code>, <code>@home</code>, <code>@snapshots</code>, <code>@log</code>)</li>
-              <li>Partición <code>/home</code> separada (solo ext4); el espacio restante se asigna automáticamente</li>
-              <li>Hostname, zona horaria (validada contra <code>/usr/share/zoneinfo/</code>), idioma y distribución de teclado</li>
-              <li><strong>Selección de kernel:</strong> <code>linux</code> · <code>linux-lts</code> · <code>linux-zen</code> · <code>linux-hardened</code></li>
-              <li><strong>Bootloader:</strong> <code>GRUB</code> (UEFI + BIOS) · <code>systemd-boot</code> (solo UEFI)</li>
-            </ul>
-          </div>
-
-          <div class="detail-block">
-            <h4>Fase 2 — Usuario y Seguridad</h4>
-            <ul>
-              <li>Nombre de usuario con creación automática en grupos <code>wheel</code>, <code>audio</code>, <code>video</code>, <code>storage</code></li>
-              <li>Contraseña de <code>root</code> y de usuario con entrada oculta y <strong>doble confirmación obligatoria</strong></li>
-            </ul>
-            <h4 class="mt">Fase 3 — Entorno Gráfico y Extras</h4>
-            <ul>
-              <li><strong>Driver de vídeo:</strong> Intel · AMD · NVIDIA · VirtualBox · VMware · Ninguno (servidor headless)</li>
-              <li><strong>Entorno de escritorio:</strong> GNOME · KDE Plasma · XFCE · Hyprland · i3-wm · Todos · Ninguno</li>
-              <li><strong>AUR helper:</strong> <code>paru</code> · <code>yay</code> · ninguno</li>
-              <li><strong>Dotfiles:</strong> URL de repositorio git + script de instalación definido por el usuario</li>
-              <li><strong>SSH:</strong> habilita <code>sshd</code> al arranque con un solo paso</li>
-            </ul>
-          </div>
-
-          <div class="detail-block">
-            <h4>Ingeniería interna destacada</h4>
-            <ul>
-              <li><strong>Máquina de estados:</strong> <code>HISTORIAL[]</code> + <code>PASO</code> permiten navegar hacia atrás sin perder datos de cada fase</li>
-              <li><strong>UI coloreada completa:</strong> funciones <code>log()</code>, <code>warn()</code>, <code>error()</code>, <code>step()</code>, <code>pick()</code> con ANSI para una experiencia visual profesional en TTY</li>
-              <li><strong>Validación real:</strong> verifica existencia del disco, formato de tamaños, que el swap no supera el espacio disponible y que las contraseñas coinciden</li>
-              <li><strong>Zero configuración manual posterior:</strong> el sistema arranca completamente listo incluyendo entorno gráfico, AUR helper y dotfiles personales</li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="project-footer">
-          <div class="stack-pills">
-            <span class="pill">Bash</span>
-            <span class="pill">LUKS2 / Argon2id</span>
-            <span class="pill">BTRFS subvols</span>
-            <span class="pill">GRUB / systemd-boot</span>
-            <span class="pill">pacstrap</span>
-            <span class="pill">arch-chroot</span>
-            <span class="pill">4 kernels</span>
-            <span class="pill">Hyprland · KDE · GNOME</span>
-            <span class="pill">paru / yay</span>
-          </div>
-          <a class="project-link" href="https://github.com/aitorino2009/Instalador-Arch-Linux" target="_blank">Ver código en GitHub →</a>
-        </div>
+      <div class="cs-links">
+        <a class="btn btn-p" href="mailto:aitorp2009@gmail.com" target="_blank">✉ aitorp2009@gmail.com</a>
+        <a class="btn btn-s" href="https://github.com/aitorino2009" target="_blank">↗ GitHub</a>
       </div>
     </div>
 
   </div>
 
-  <!-- TECH MARQUEE -->
-  <div class="tech-marquee-container reveal">
-    <div class="tech-marquee-track">
-      <!-- Repetimos la lista 2 veces para que el scroll sea infinito continuo -->
-      <div class="tech-marquee-content">
-        <span>Linux</span> <span class="dot">•</span>
-        <span>Bash</span> <span class="dot">•</span>
-        <span>Arch</span> <span class="dot">•</span>
-        <span>Redes</span> <span class="dot">•</span>
-        <span>Python</span> <span class="dot">•</span>
-        <span>Vanilla JS</span> <span class="dot">•</span>
-        <span>Windows Server</span> <span class="dot">•</span>
-        <span>Git</span> <span class="dot">•</span>
-        <span>Docker</span> <span class="dot">•</span>
-      </div>
-      <div class="tech-marquee-content">
-        <span>Linux</span> <span class="dot">•</span>
-        <span>Bash</span> <span class="dot">•</span>
-        <span>Arch</span> <span class="dot">•</span>
-        <span>Redes</span> <span class="dot">•</span>
-        <span>Python</span> <span class="dot">•</span>
-        <span>Vanilla JS</span> <span class="dot">•</span>
-        <span>Windows Server</span> <span class="dot">•</span>
-        <span>Git</span> <span class="dot">•</span>
-        <span>Docker</span> <span class="dot">•</span>
-      </div>
-    </div>
-  </div>
+  <footer>Aitor Portales Crespí · Palma de Mallorca · 2026</footer>
 
-  <!-- GITHUB -->
-  <div id="github" class="reveal" style="padding: 4rem 0 2rem; border-top: 1px solid rgba(255,255,255,0.05); margin-top: 2rem;">
-    <p class="section-label">// github</p>
-    <h2 style="font-family:var(--font-sans); font-weight:800; font-size:1.8rem; letter-spacing:-0.02em; margin-bottom:0.6rem;">Repositorios</h2>
-    <p style="color:var(--muted); font-size:0.85rem; margin-bottom:2rem;">Código, scripts y experimentos en progreso.</p>
-    <div class="repos-grid">
-      <a class="repo-card" href="https://github.com/aitorino2009" target="_blank">
-        <p class="repo-name">↗ github.com/aitorino2009</p>
-        <p class="repo-desc">Python, JavaScript, Bash. Proyectos en activo.</p>
-      </a>
-    </div>
-  </div>
-
-  <!-- CONTACT -->
-  <div class="contact-strip reveal" id="contact">
-    <div class="cs-text">
-      <h3>¿Hablamos?</h3>
-      <p>Abierto a prácticas y oportunidades en el sector TI.</p>
-    </div>
-    <div class="cs-links">
-      <a class="btn btn-p" href="mailto:aitorp2009@gmail.com">✉ aitorp2009@gmail.com</a>
-      <a class="btn btn-s" href="https://github.com/aitorino2009" target="_blank">↗ GitHub</a>
-    </div>
-  </div>
-
-</div>
-
-<footer>Aitor Portales Crespí · Palma de Mallorca · 2026</footer>
-
-<!-- Script Principal -->
-<script src="./src/js/main.js" defer></script>
+  <!-- Script Principal -->
+  <script src="./src/js/main.js" defer></script>
 
 </body>
+
 </html>
