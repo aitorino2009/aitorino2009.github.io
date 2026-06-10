@@ -200,11 +200,11 @@
             <h3 class="project-title">Instalación y configuración de Endeavour OS</h3>
             <p class="project-oneliner">
               Práctica de instalación del módulo SOM. Elegí Endeavour OS
-              — basada en Arch — por su proximidad al sistema real.
+              (basada en Arch) por su proximidad al sistema real.
               Instalada en hardware real.
             </p>
             <div class="project-badges">
-              <span class="badge badge-cyan">Arch-based</span>
+              <span class="badge badge-cyan">Arch Linux</span>
               <span class="badge badge-orange">Hardware real</span>
               <span class="badge badge-dim">CC BY-NC-SA 4.0</span>
             </div>
@@ -220,16 +220,16 @@
               <h4>Contexto</h4>
               <p>
                 Práctica de instalación del módulo SOM (1º SMR).
-                Opté por <strong>Endeavour OS</strong> — distribución Arch-based
-                con instalador gráfico pero sin ocultar la estructura del sistema —
+                Opté por <strong>Endeavour OS</strong>, una distribución basada en
+                Arch Linux, con instalador gráfico pero sin ocultar la estructura del sistema
                 por querer profundizar más allá del temario.
               </p>
               <h4 class="mt">Por qué Endeavour OS</h4>
               <p>
-                Arch Linux puro requiere instalación completamente manual desde TTY.
+                Arch Linux puro requiere una instalación completamente manual desde la TTY.
                 Endeavour mantiene esa filosofía con un instalador gráfico, ideal
-                para profundizar en cómo funciona el sistema real sin perderse
-                horas en el particionado.
+                para profundizar en cómo funciona el sistema real sin perder horas
+                en el particionado.
               </p>
             </div>
             <div class="detail-block">
@@ -267,9 +267,9 @@
             <p class="project-num">03 / personal · open source</p>
             <h3 class="project-title">Instalador Automático de Arch Linux</h3>
             <p class="project-oneliner">
-              Script Bash de producción: 3 fases de configuración interactiva, cifrado LUKS2,
+              Script en Bash de producción: 3 fases de configuración interactiva, cifrado LUKS2,
               soporte BTRFS con subvolúmenes, 4 kernels, 6 entornos de escritorio y navegación
-              hacia atrás sin perder estado. Arch Linux completo en 5–10 minutos.
+              hacia atrás sin perder estado. Arch Linux completamente instalado en 5–10 minutos.
             </p>
             <div class="project-badges">
               <span class="badge badge-green">Open Source</span>
@@ -293,14 +293,14 @@
                 Instalar Arch Linux manualmente implica más de 30 comandos ejecutados en orden exacto:
                 particionado, formateo, montaje, <code>pacstrap</code>, <code>arch-chroot</code>,
                 configuración del bootloader, red, locale, zona horaria, usuarios...
-                Y un solo error en cualquier punto te obliga a empezar desde cero.
+                Y un solo error en cualquier punto te obliga a empezar casi desde cero.
                 Hacerlo repetidamente en diferentes máquinas es tiempo perdido de forma sistemática.
               </p>
               <h4 class="mt">La solución: un instalador de producción</h4>
               <p>
                 Un único archivo <code>install.sh</code> con <strong>set -euo pipefail</strong>
                 (ejecución estricta, sin fallos silenciosos) que recorre tres fases de preguntas
-                antes de tocar el disco. <strong>Cualquier pregunta admite pulsar <code>&lt;</code> + Enter
+                antes de tocar el disco. <strong>Cualquier pregunta te permite pulsar <code>&lt;</code> + Enter
                   para volver al paso anterior sin perder la configuración ya completada.</strong>
               </p>
             </div>
@@ -318,13 +318,15 @@
                 </li>
                 <li><strong>Sistema de archivos:</strong> <code>ext4</code> (clásico) o <code>btrfs</code> con
                   subvolúmenes automáticos (<code>@</code>, <code>@home</code>, <code>@snapshots</code>,
-                  <code>@log</code>)</li>
+                  <code>@log</code>)
+                </li>
                 <li>Partición <code>/home</code> separada (solo ext4); el espacio restante se asigna automáticamente
                 </li>
                 <li>Hostname, zona horaria (validada contra <code>/usr/share/zoneinfo/</code>), idioma y distribución de
                   teclado</li>
                 <li><strong>Selección de kernel:</strong> <code>linux</code> · <code>linux-lts</code> ·
-                  <code>linux-zen</code> · <code>linux-hardened</code></li>
+                  <code>linux-zen</code> · <code>linux-hardened</code>
+                </li>
                 <li><strong>Bootloader:</strong> <code>GRUB</code> (UEFI + BIOS) · <code>systemd-boot</code> (solo UEFI)
                 </li>
               </ul>
@@ -334,7 +336,8 @@
               <h4>Fase 2 — Usuario y Seguridad</h4>
               <ul>
                 <li>Nombre de usuario con creación automática en grupos <code>wheel</code>, <code>audio</code>,
-                  <code>video</code>, <code>storage</code></li>
+                  <code>video</code>, <code>storage</code>
+                </li>
                 <li>Contraseña de <code>root</code> y de usuario con entrada oculta y <strong>doble confirmación
                     obligatoria</strong></li>
               </ul>
@@ -358,11 +361,12 @@
                   hacia atrás sin perder datos de cada fase</li>
                 <li><strong>UI coloreada completa:</strong> funciones <code>log()</code>, <code>warn()</code>,
                   <code>error()</code>, <code>step()</code>, <code>pick()</code> con ANSI para una experiencia visual
-                  profesional en TTY</li>
+                  profesional en TTY
+                </li>
                 <li><strong>Validación real:</strong> verifica existencia del disco, formato de tamaños, que el swap no
                   supera el espacio disponible y que las contraseñas coinciden</li>
-                <li><strong>Zero configuración manual posterior:</strong> el sistema arranca completamente listo
-                  incluyendo entorno gráfico, AUR helper y dotfiles personales</li>
+                <li><strong>Cero configuración manual posterior:</strong> el sistema arranca completamente listo
+                  incluyendo el entorno gráfico, el gestor de paquetes del AUR y los dotfiles personales</li>
               </ul>
             </div>
           </div>
