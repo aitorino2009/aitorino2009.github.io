@@ -225,13 +225,13 @@ function initInteractiveTerminal() {
     },
     "instalador-arch": {
       "instalador.sh": "#!/bin/bash\n# Instalador Autom\u00e1tico de Arch Linux v3.x\n# Autor: aitorino2009 | GitHub: https://github.com/aitorino2009\n# Licencia: MIT\nset -euo pipefail\n\necho '=== Arch Linux Auto-Installer ==='",
-      "readme.md": "::url::https://github.com/aitorino2009/arch-installer#readme",
+      "readme.md": "::url::https://github.com/aitorino2009/Instalador-Arch-Linux#readme",
       "cifrado.conf": "# Configuraci\u00f3n LUKS2\n# Cifrado: aes-xts-plain64\n# Tama\u00f1o de clave: 512 bits\n# Hash: sha256\n# Tiempo de iteraci\u00f3n: 2000ms"
     },
     "github": {
       "enlaces.txt": "Perfil de GitHub:\n\ud83d\udc49 https://github.com/aitorino2009\n\nRepositorios destacados:\n  - instalador-arch  (Script Bash producci\u00f3n)\n  - aitorino2009.github.io  (Este portfolio)"
     },
-    "acerca.txt": "\u00a1Hola! Soy Aitor Portales Cresp\u00ed.\nEstudiante de SMR (Sistemas Microinform\u00e1ticos y Redes).\nApasionado por GNU/Linux, la automatizaci\u00f3n y el desarrollo web Vanilla puro.\nUbicaci\u00f3n: Mallorca \ud83d\udccd | Buscando pr\u00e1cticas."
+    "acerca.txt": "\u00a1Hola! Soy Aitor. Tengo 16 a\u00f1os y curso un CFGM de SMR.\nEstudio esto porque me encanta y dedico mi tiempo libre a aprender sobre GNU/Linux, Bash y desarrollo web (Vanilla).\nVivo en Mallorca \ud83d\udccd y busco mi primera oportunidad de pr\u00e1cticas para seguir aprendiendo en un entorno real."
   };
 
   // Mapa: nombre de carpeta \u2192 ID de proyecto en el DOM
@@ -400,7 +400,7 @@ function initInteractiveTerminal() {
         historyBox.innerHTML = '';
         if (promptDiv) promptDiv.classList.add('terminal-pristine');
       } else if (command === 'whoami') {
-        historyBox.innerHTML += `<div class="out">Aitor Portales Crespí.<br>Estudiante de SMR (Sistemas Microinformáticos y Redes).<br>Apasionado por Linux, automatización y desarrollo web.</div>`;
+        historyBox.innerHTML += `<div class="out">Aitor Portales Crespí. 16 años.<br>Cursando 1º de SMR (Sistemas Microinformáticos y Redes).<br>Disfruto aprendiendo administración GNU/Linux, scripting y desarrollo web Vanilla.</div>`;
       } else if (command === 'neofetch') {
         const res = `${window.innerWidth}x${window.innerHeight}`;
         const upEl = document.getElementById('hud-up');
