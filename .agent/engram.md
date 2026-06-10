@@ -46,7 +46,3 @@ Si deseas expandir el proyecto, aquí hay ideas altamente recomendadas que se pu
 * [x] **Historial de Comandos (Flechas Arriba/Abajo):** Implementado. Navegación por historial de sesión.
 * [x] **Sistema de Archivos Simulado (vFS):** Implementado. Comandos `ls [dir]`, `cd [dir]`, `cat [file]` funcionando sobre el árbol `VFS`. Prompt dinámico que refleja el directorio actual.
 * [ ] **Modo "Hacker" / CRT Filter:** Añadir un comando secreto (`sudo hacker`) que inyecte globalmente una capa de scanlines y aberración cromática imitando un monitor CRT antiguo.
-
-## Cosas por hacer antes de cualquier otra cosa (Para la próxima sesión):
-* [ ] Cambiar el nombre del proyecto `arch-installer` a `instalador-arch`.
-* [ ] Cuando se escribe `cd ...` (cualquier proyecto), veo que primero se hace el scroll hacia abajo, luego se abre la "tarjeta" y por último se produce la animación en el fondo. Eso hace que quede mal, primero debería de abrirse la tarjeta y una vez abierta, que se produzca el scroll hacia abajo mientras el fondo se anima. Para que quede clean.

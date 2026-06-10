@@ -5,7 +5,7 @@ class UISound {
   constructor() {
     this.enabled = true; // Activado por defecto visualmente
     this.ctx = null;
-    
+
     // Auto-iniciar AudioContext en la primera interacción para cumplir políticas del navegador
     const initAudio = () => {
       this.init();
@@ -21,7 +21,7 @@ class UISound {
       if (AudioCtx) this.ctx = new AudioCtx();
     }
     if (this.ctx && this.ctx.state === 'suspended') {
-      this.ctx.resume().catch(() => {});
+      this.ctx.resume().catch(() => { });
     }
   }
   toggle() {
@@ -33,18 +33,18 @@ class UISound {
     if (!this.enabled) return;
     this.init();
     if (!this.ctx || this.ctx.state === 'suspended') return;
-    
+
     const osc = this.ctx.createOscillator();
     const gain = this.ctx.createGain();
-    
+
     osc.type = 'sine';
     osc.frequency.setValueAtTime(400, this.ctx.currentTime);
     osc.frequency.exponentialRampToValueAtTime(100, this.ctx.currentTime + 0.05);
-    
+
     gain.gain.setValueAtTime(0, this.ctx.currentTime);
     gain.gain.linearRampToValueAtTime(0.5, this.ctx.currentTime + 0.01); // Subido a 50% volumen
     gain.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + 0.05);
-    
+
     osc.connect(gain);
     gain.connect(this.ctx.destination);
     osc.start();
@@ -54,17 +54,17 @@ class UISound {
     if (!this.enabled) return;
     this.init();
     if (!this.ctx || this.ctx.state === 'suspended') return;
-    
+
     const osc = this.ctx.createOscillator();
     const gain = this.ctx.createGain();
-    
+
     osc.type = 'triangle';
     osc.frequency.setValueAtTime(300, this.ctx.currentTime);
-    
+
     gain.gain.setValueAtTime(0, this.ctx.currentTime);
     gain.gain.linearRampToValueAtTime(0.4, this.ctx.currentTime + 0.01); // Subido a 40% volumen
     gain.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + 0.04);
-    
+
     osc.connect(gain);
     gain.connect(this.ctx.destination);
     osc.start();
@@ -74,18 +74,18 @@ class UISound {
     if (!this.enabled) return;
     this.init();
     if (!this.ctx || this.ctx.state === 'suspended') return;
-    
+
     const osc = this.ctx.createOscillator();
     const gain = this.ctx.createGain();
-    
+
     osc.type = 'sine';
     osc.frequency.setValueAtTime(50, this.ctx.currentTime);
     osc.frequency.linearRampToValueAtTime(80, this.ctx.currentTime + 1.0);
-    
+
     gain.gain.setValueAtTime(0, this.ctx.currentTime);
     gain.gain.linearRampToValueAtTime(0.6, this.ctx.currentTime + 0.3); // Subido a 60% volumen
     gain.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + 1.2);
-    
+
     osc.connect(gain);
     gain.connect(this.ctx.destination);
     osc.start();
@@ -123,7 +123,7 @@ function initBootSequence() {
       bootLogs.appendChild(p);
       bootLogs.scrollTop = bootLogs.scrollHeight;
       sfx.playKeystroke();
-      
+
       if (index === logs.length - 1) {
         setTimeout(() => {
           bootContainer.classList.add('hide');
@@ -131,7 +131,7 @@ function initBootSequence() {
         }, 300);
       }
     }, delay);
-    delay += Math.floor(Math.random() * 80) + 30; 
+    delay += Math.floor(Math.random() * 80) + 30;
   });
 }
 
@@ -168,10 +168,10 @@ function initHUD() {
     let val = Math.max(2, Math.min(98, last + (Math.random() - 0.5) * 30));
     history.shift();
     history.push(val);
-    
+
     cpuEl.innerText = val.toFixed(1);
     netEl.innerText = (Math.random() * 200 + 10).toFixed(1);
-    
+
     // Uptime
     let diff = Math.floor((Date.now() - startTime) / 1000);
     let h = String(Math.floor(diff / 3600)).padStart(2, '0');
@@ -179,23 +179,23 @@ function initHUD() {
     let s = String(diff % 60).padStart(2, '0');
     let uptimeStr = `${h}:${m}:${s}`;
     upEl.innerText = uptimeStr;
-    
+
     // Live update para neofetch si existe
     document.querySelectorAll('.nf-live-uptime').forEach(el => el.innerText = uptimeStr);
-    
+
     // Draw Chart
-    ctx.clearRect(0,0,200,40);
+    ctx.clearRect(0, 0, 200, 40);
     ctx.beginPath();
     ctx.strokeStyle = 'rgba(0, 255, 136, 0.6)';
     ctx.lineWidth = 1.5;
     history.forEach((v, i) => {
       let x = (i / 40) * 200;
       let y = 40 - (v / 100 * 40);
-      if(i===0) ctx.moveTo(x, y);
+      if (i === 0) ctx.moveTo(x, y);
       else ctx.lineTo(x, y);
     });
     ctx.stroke();
-    
+
     // Fill under line
     ctx.lineTo(200, 40);
     ctx.lineTo(0, 40);
@@ -223,13 +223,13 @@ function initInteractiveTerminal() {
       "info.txt": "Proyecto: Instalaci\u00f3n y Configuraci\u00f3n de EndeavourOS\n\nPr\u00e1ctica de instalaci\u00f3n del m\u00f3dulo SOM (1\u00ba SMR).\nEleg\u00ed EndeavourOS \u2014 Arch-based con instalador gr\u00e1fico \u2014 para profundizar\nm\u00e1s all\u00e1 del temario. Instalada en hardware real: Intel i5-7500, 8GB RAM.",
       "notas.md": "## Por qu\u00e9 EndeavourOS\n\nArch puro requiere instalaci\u00f3n desde TTY.\nEndeavour mantiene esa filosof\u00eda con instalador gr\u00e1fico:\nideal para entender el sistema real sin perderse en el particionado."
     },
-    "arch-installer": {
+    "instalador-arch": {
       "instalador.sh": "#!/bin/bash\n# Instalador Autom\u00e1tico de Arch Linux v3.x\n# Autor: aitorino2009 | GitHub: https://github.com/aitorino2009\n# Licencia: MIT\nset -euo pipefail\n\necho '=== Arch Linux Auto-Installer ==='",
       "readme.md": "::url::https://github.com/aitorino2009/arch-installer#readme",
       "cifrado.conf": "# Configuraci\u00f3n LUKS2\n# Cifrado: aes-xts-plain64\n# Tama\u00f1o de clave: 512 bits\n# Hash: sha256\n# Tiempo de iteraci\u00f3n: 2000ms"
     },
     "github": {
-      "enlaces.txt": "Perfil de GitHub:\n\ud83d\udc49 https://github.com/aitorino2009\n\nRepositorios destacados:\n  - arch-installer  (Script Bash producci\u00f3n)\n  - aitorino2009.github.io  (Este portfolio)"
+      "enlaces.txt": "Perfil de GitHub:\n\ud83d\udc49 https://github.com/aitorino2009\n\nRepositorios destacados:\n  - instalador-arch  (Script Bash producci\u00f3n)\n  - aitorino2009.github.io  (Este portfolio)"
     },
     "acerca.txt": "\u00a1Hola! Soy Aitor Portales Cresp\u00ed.\nEstudiante de SMR (Sistemas Microinform\u00e1ticos y Redes).\nApasionado por GNU/Linux, la automatizaci\u00f3n y el desarrollo web Vanilla puro.\nUbicaci\u00f3n: Mallorca \ud83d\udccd | Buscando pr\u00e1cticas."
   };
@@ -238,9 +238,9 @@ function initInteractiveTerminal() {
   const VFS_PROJECT_MAP = {
     'chromebook': 'p1',
     'endeavouros': 'p2',
-    'arch-installer': 'p3'
+    'instalador-arch': 'p3'
   };
-  
+
   let currentPath = []; // [] === '~'
 
   const getPromptHTML = () => {
@@ -251,7 +251,7 @@ function initInteractiveTerminal() {
   const resolvePath = (targetStr) => {
     if (!targetStr || targetStr === '.') return { node: VFS, isDir: true, error: null, resolvedPath: currentPath };
     let tempPath = [...currentPath];
-    if (targetStr.startsWith('/')) tempPath = []; 
+    if (targetStr.startsWith('/')) tempPath = [];
     if (targetStr.startsWith('~')) {
       tempPath = [];
       targetStr = targetStr.substring(1);
@@ -311,7 +311,7 @@ function initInteractiveTerminal() {
       e.preventDefault();
       const currentText = input.innerText.toLowerCase();
       if (!currentText.trim()) return;
-      
+
       const parts = currentText.split(' ');
       let matches = [];
       let prefixToReplace = '';
@@ -322,11 +322,11 @@ function initInteractiveTerminal() {
       } else {
         const cmd = parts[0];
         if (['cd', 'cat', 'ls'].includes(cmd)) {
-          const target = parts[parts.length - 1]; 
+          const target = parts[parts.length - 1];
           const lastSlash = target.lastIndexOf('/');
           const baseDirStr = lastSlash !== -1 ? target.substring(0, lastSlash) : '';
           const searchPrefix = lastSlash !== -1 ? target.substring(lastSlash + 1) : target;
-          
+
           const res = resolvePath(baseDirStr);
           if (!res.error && res.isDir) {
             matches = Object.keys(res.node).filter(k => k.startsWith(searchPrefix));
@@ -379,7 +379,7 @@ function initInteractiveTerminal() {
     if (e.key === 'Enter') {
       e.preventDefault();
       let cmd = input.innerText.trim();
-      
+
       if (cmd === '') cmd = 'help';
       else {
         if (cmdHistory[cmdHistory.length - 1] !== cmd) cmdHistory.push(cmd);
@@ -390,12 +390,12 @@ function initInteractiveTerminal() {
       if (promptDiv) promptDiv.classList.remove('terminal-pristine');
 
       historyBox.innerHTML += `<div class="t-line">${getPromptHTML()}<span class="t-cmd">${cmd}</span></div>`;
-      
+
       const args = cmd.split(' ').filter(a => a !== '');
       const command = args[0].toLowerCase();
 
       if (command === 'help') {
-        historyBox.innerHTML += `<div class="out">Comandos disponibles:<br>  whoami    - Ver perfil<br>  ls [dir]  - Listar archivos<br>  tree [dir]- Árbol de directorios<br>  cd [dir]  - Navegar (proyectos: se abren solos)<br>  cat [file]- Leer archivo<br>  skills    - Listar tecnologías<br>  neofetch  - Info sistema<br>  clear     - Limpiar<br>  hire      - Contactar</div>`;
+        historyBox.innerHTML += `<div class="out">Comandos disponibles:<br>  whoami    - Ver perfil<br>  ls [dir]  - Listar archivos<br>  tree [dir]- Árbol de directorios<br>  cd [dir]  - Navegar<br>  cat [archivo]- Leer archivo<br>  skills    - Listar tecnologías<br>  neofetch  - Info sistema<br>  clear     - Limpiar<br>  hire      - Contactar</div>`;
       } else if (command === 'clear') {
         historyBox.innerHTML = '';
         if (promptDiv) promptDiv.classList.add('terminal-pristine');
@@ -471,10 +471,16 @@ function initInteractiveTerminal() {
             setTimeout(() => {
               const projectEl = document.getElementById(projectId);
               if (projectEl) {
-                projectEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                setTimeout(() => window.toggleProject(projectId), 600);
+                // Primero abrimos la tarjeta (y se desencadena el warp effect)
+                window.toggleProject(projectId);
+                // Una vez que empieza a abrirse, hacemos el scroll suave calculando la posición exacta
+                setTimeout(() => {
+                  const yOffset = -120; // Espacio para la navbar (80px) + margen
+                  const y = projectEl.getBoundingClientRect().top + window.scrollY + yOffset;
+                  window.scrollTo({ top: y, behavior: 'smooth' });
+                }, 300);
               }
-            }, 300);
+            }, 150);
           }
         }
       } else if (command === 'cat') {
@@ -526,7 +532,7 @@ function initInteractiveTerminal() {
       } else {
         historyBox.innerHTML += `<div class="out">bash: ${command}: command not found</div>`;
       }
-      
+
       input.innerText = '';
       historyBox.scrollTop = historyBox.scrollHeight;
     }
@@ -618,7 +624,7 @@ function initCustomCursor() {
   let mouseX = window.innerWidth / 2;
   let mouseY = window.innerHeight / 2;
   let ringX = mouseX, ringY = mouseY;
-  
+
   window.addEventListener('mousemove', (e) => {
     mouseX = e.clientX; mouseY = e.clientY;
     dot.style.transform = `translate(${mouseX}px, ${mouseY}px)`;
@@ -646,8 +652,8 @@ function initTiltEffect() {
     card.addEventListener('mousemove', e => {
       const rect = card.getBoundingClientRect();
       const x = e.clientX - rect.left, y = e.clientY - rect.top;
-      const rotateX = ((y - rect.height/2) / (rect.height/2)) * -4;
-      const rotateY = ((x - rect.width/2) / (rect.width/2)) * 4;
+      const rotateX = ((y - rect.height / 2) / (rect.height / 2)) * -4;
+      const rotateY = ((x - rect.width / 2) / (rect.width / 2)) * 4;
       card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-4px)`;
       card.style.setProperty('--mouse-x', `${x}px`);
       card.style.setProperty('--mouse-y', `${y}px`);
@@ -666,7 +672,7 @@ function initCanvasBackground() {
   if (!canvas) return;
   const ctx = canvas.getContext('2d');
   let width, height, particles = [];
-  
+
   function resize() { width = canvas.width = window.innerWidth; height = canvas.height = window.innerHeight; }
   window.addEventListener('resize', resize);
   resize();
@@ -698,17 +704,17 @@ function initCanvasBackground() {
       particles[i].update(); particles[i].draw();
       for (let j = i; j < particles.length; j++) {
         const dx = particles[i].x - particles[j].x, dy = particles[i].y - particles[j].y;
-        const dist = Math.sqrt(dx*dx + dy*dy);
+        const dist = Math.sqrt(dx * dx + dy * dy);
         if (dist < 150) {
-          ctx.beginPath(); ctx.strokeStyle = `rgba(0, 255, 136, ${0.1 - dist/1500})`;
+          ctx.beginPath(); ctx.strokeStyle = `rgba(0, 255, 136, ${0.1 - dist / 1500})`;
           ctx.lineWidth = 0.5; ctx.moveTo(particles[i].x, particles[i].y); ctx.lineTo(particles[j].x, particles[j].y); ctx.stroke();
         }
       }
       if (mouse.x != null) {
         const dx = mouse.x - particles[i].x, dy = mouse.y - particles[i].y;
-        const dist = Math.sqrt(dx*dx + dy*dy);
+        const dist = Math.sqrt(dx * dx + dy * dy);
         if (dist < 200) {
-          ctx.beginPath(); ctx.strokeStyle = `rgba(0, 212, 255, ${0.2 - dist/1000})`;
+          ctx.beginPath(); ctx.strokeStyle = `rgba(0, 212, 255, ${0.2 - dist / 1000})`;
           ctx.lineWidth = 1; ctx.moveTo(particles[i].x, particles[i].y); ctx.lineTo(mouse.x, mouse.y); ctx.stroke();
         }
       }
@@ -750,19 +756,19 @@ function initProjects() {
     ]
   };
 
-  window.toggleProject = function(id) {
+  window.toggleProject = function (id) {
     const el = document.getElementById(id);
     if (!el) return;
-    
+
     const isOpen = el.classList.contains('open');
-    
+
     // Modo Acordeón: Cerrar todos los demás
     document.querySelectorAll('.project').forEach(p => p.classList.remove('open'));
-    
+
     if (!isOpen) {
       el.classList.add('open');
       if (window.triggerWarp) window.triggerWarp();
-      
+
       // Mostrar SVGs Holográficos
       if (container) {
         container.innerHTML = (svgs[id] || []).join('');
@@ -787,7 +793,7 @@ let warpMultiplier = 0.8;
 function init3DGridScroll() {
   const grid = document.getElementById('grid-3d');
   if (!grid) return;
-  
+
   window.addEventListener('scroll', () => {
     const scrolled = window.scrollY;
     grid.style.backgroundPositionY = `${scrolled * 0.8 + warpSpeed}px`;
@@ -799,14 +805,14 @@ function init3DGridScroll() {
       warpSpeed += warpMultiplier * 8; // Velocidad de avance
       warpMultiplier *= 0.94; // Fricción suave
       if (warpMultiplier < 0.81) warpMultiplier = 0.8;
-      
+
       const scrolled = window.scrollY;
       grid.style.backgroundPositionY = `${scrolled * 0.8 + warpSpeed}px`;
       requestAnimationFrame(renderWarp);
     }
   }
-  
-  window.triggerWarp = function() {
+
+  window.triggerWarp = function () {
     warpMultiplier = 15; // Aceleración masiva inicial
     renderWarp();
   };
