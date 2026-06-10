@@ -42,7 +42,21 @@ Estas reglas han sido indicadas por el usuario y son de obligado cumplimiento ba
 
 ## 🗺️ Roadmap de Mejoras Sugeridas (Futuros Pasos)
 Si deseas expandir el proyecto, aquí hay ideas altamente recomendadas que se pueden abordar en las siguientes sesiones:
+
+### ✅ Implementadas
 * [x] **Sistema de Autocompletado (Tab) en Terminal:** Implementado. Autocompletado de comandos y de rutas del vFS con `Tab`.
 * [x] **Historial de Comandos (Flechas Arriba/Abajo):** Implementado. Navegación por historial de sesión.
-* [x] **Sistema de Archivos Simulado (vFS):** Implementado. Comandos `ls [dir]`, `cd [dir]`, `cat [file]` funcionando sobre el árbol `VFS`. Prompt dinámico que refleja el directorio actual.
+* [x] **Sistema de Archivos Simulado (vFS):** Implementado. Comandos `ls [dir]`, `cd [dir]`, `cat [archivo]` funcionando sobre el árbol `VFS`. Prompt dinámico que refleja el directorio actual.
+* [x] **Animación de Scramble Text en el Hero:** Implementado. El h1 "Aitor Portales" hace scramble al cargar. El h2 "Proyectos" repite el efecto cada vez que entra en el viewport (scroll bidireccional). Spec y Skill en `.agent/`.
+
+### 🔥 Alta Prioridad / Alto Impacto Visual
 * [ ] **Modo "Hacker" / CRT Filter:** Añadir un comando secreto (`sudo hacker`) que inyecte globalmente una capa de scanlines y aberración cromática imitando un monitor CRT antiguo.
+
+### 🛠️ Media Prioridad / Mejoras de UX
+* [ ] **Comando `man [comando]`** en la terminal: Implementar una página de manual simplificada que, al escribir `man ls` o `man neofetch`, muestre una descripción breve del comando dentro de la propia terminal simulada. Refuerza la inmersión del vFS.
+* [ ] **Cursor de Bloque Parpadeante en la Terminal:** Reemplazar el cursor de texto estándar del `<input>` por un bloque parpadeante custom (CSS + JS), más fiel a una TTY real. El input se oculta y se captura el teclado de forma directa.
+
+### 💡 Baja Prioridad / Pulido Fino
+* [ ] **Meta tags Open Graph completas:** Añadir `og:image`, `og:title` y `og:description` al `<head>` para que cuando alguien comparta el enlace del portfolio en LinkedIn o Discord, aparezca una preview visual atractiva en lugar del enlace pelado.
+* [ ] **Scroll Reveal más granular en los proyectos:** En lugar de animar toda la tarjeta de golpe, escalonar con `delay` la aparición del número, el título y los badges por separado para una entrada más cinematográfica.
+* [ ] **Página 404 personalizada:** Crear un `404.html` con el mismo estilo cyber que muestre un error de terminal tipo `bash: command not found: /la-ruta-que-buscabas` con un botón para volver al inicio.

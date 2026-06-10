@@ -548,9 +548,11 @@ function initInteractiveTerminal() {
 // 5. SCRAMBLE TEXT EFFECT
 // ==========================================
 class TextScramble {
-  constructor(el) {
+  // speed: multiplicador de velocidad. 1 = normal (hero), 3 = rápido (scroll)
+  constructor(el, speed = 1) {
     this.el = el;
-    this.chars = '!<>-_\\\\/[]{}—=+*^?#_';
+    this.chars = '!<>-_\\/[]{}=+*^?#';
+    this.speed = speed;
     this.update = this.update.bind(this);
   }
   setText(newText) {
@@ -558,11 +560,13 @@ class TextScramble {
     const length = Math.max(oldText.length, newText.length);
     const promise = new Promise((resolve) => this.resolve = resolve);
     this.queue = [];
+    const maxStart = Math.floor(40 / this.speed);
+    const maxExtra = Math.floor(40 / this.speed);
     for (let i = 0; i < length; i++) {
       const from = oldText[i] || '';
       const to = newText[i] || '';
-      const start = Math.floor(Math.random() * 40);
-      const end = start + Math.floor(Math.random() * 40);
+      const start = Math.floor(Math.random() * maxStart);
+      const end = start + Math.floor(Math.random() * maxExtra);
       this.queue.push({ from, to, start, end });
     }
     cancelAnimationFrame(this.frameRequest);
@@ -598,19 +602,47 @@ class TextScramble {
 }
 
 function initScramble() {
-  const elements = document.querySelectorAll('.scramble');
-  const observer = new IntersectionObserver((entries, obs) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        const el = entry.target;
-        const text = el.innerText;
-        const scrambler = new TextScramble(el);
-        scrambler.setText(text);
-        obs.unobserve(el);
-      }
+  const elements = [...document.querySelectorAll('.scramble')];
+  if (!elements.length) return;
+
+  function isInViewport(el) {
+    const rect = el.getBoundingClientRect();
+    return rect.top < window.innerHeight && rect.bottom > 0;
+  }
+
+  function triggerScramble(el) {
+    if (el.dataset.scrambling === 'true') return;
+    el.dataset.scrambling = 'true';
+    const text = el.dataset.scrambleText || el.innerText;
+    // speed = 3 para animación rápida y snappy en scroll
+    const scrambler = new TextScramble(el, 3);
+    scrambler.setText(text).then(() => {
+      el.dataset.scrambling = 'false';
     });
-  }, { threshold: 0.5 });
-  elements.forEach(el => observer.observe(el));
+  }
+
+  // Disparar en cada evento scroll (throttle a 120ms para no saturar)
+  let scrollTimer = null;
+  window.addEventListener('scroll', () => {
+    if (scrollTimer) return;
+    scrollTimer = setTimeout(() => {
+      scrollTimer = null;
+      elements.forEach(el => {
+        if (isInViewport(el)) triggerScramble(el);
+      });
+    }, 120);
+  }, { passive: true });
+}
+
+function initScrambleHero() {
+  const el = document.querySelector('.scramble-hero');
+  if (!el) return;
+  // Asegurarse de que el elemento sea visible antes de animar
+  el.style.opacity = '1';
+  const text = el.dataset.scrambleText || el.innerText;
+  // speed = 1 (normal) para el hero: animación completa y cinematográfica
+  const scrambler = new TextScramble(el, 1);
+  scrambler.setText(text);
 }
 
 // ==========================================
@@ -829,6 +861,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initHUD();
   initInteractiveTerminal();
   initScramble();
+  initScrambleHero();
   initCustomCursor();
   initCanvasBackground();
   initTiltEffect();
