@@ -60,7 +60,7 @@
     <div class="hero-clean">
       <div class="hero-header">
         <p class="hero-eyebrow fade-in d1">// Protocolo Inicializado</p>
-        <h1 class="hero-name fade-in d2">Aitor Portales</h1>
+        <h1 class="hero-name scramble-hero" data-scramble-text="Aitor Portales">Aitor Portales</h1>
       </div>
 
       <div class="hero-body">
@@ -115,7 +115,7 @@
     <!-- PROJECTS -->
     <div id="projects">
       <div class="projects-header reveal">
-        <h2 class="scramble">Proyectos</h2>
+        <h2 class="scramble" data-scramble-text="Proyectos">Proyectos</h2>
         <span class="projects-count">03 proyectos documentados</span>
       </div>
 
@@ -147,35 +147,27 @@
             <div class="detail-block">
               <h4>El reto</h4>
               <p>
-                Un Lenovo N22 con ChromeOS descontinuado que ya no recibía actualizaciones.
-                El hardware seguía funcionando — el software lo limitaba.
-                El objetivo: convertirlo en una máquina completamente funcional
-                sin tirar el equipo.
+                Tenía un Lenovo N22 con ChromeOS descontinuado que ya no recibía actualizaciones. El hardware seguía funcionando, pero el software lo limitaba. Mi objetivo era convertirlo en una máquina completamente funcional para evitar tirarlo.
               </p>
-              <h4 class="mt">El problema técnico real</h4>
+              <h4 class="mt">El problema técnico</h4>
               <p>
-                El disco es un <strong>eMMC soldado de solo 30 GB</strong>.
-                Instalar <strong>Windows 11 Pro</strong> (con sus requisitos mínimos)
-                y <strong>Arch Linux con Hyprland</strong> en ese espacio requirió
-                una planificación cuidadosa del particionado y decidir qué
-                instalar en cada sistema para que ambos fueran viables.
+                El disco es un <strong>eMMC soldado de solo 30 GB</strong>. Instalar <strong>Windows 11 Pro</strong> y <strong>Arch Linux con Hyprland</strong> en ese espacio tan reducido me obligó a planificar cuidadosamente el particionado y a decidir qué instalar en cada sistema para que ambos fueran viables.
               </p>
             </div>
             <div class="detail-block">
               <h4>Proceso</h4>
               <ul>
-                <li>Análisis del hardware y compatibilidad de drivers</li>
-                <li>Desbloqueo del firmware del Chromebook</li>
-                <li>Diseño del esquema de particionado en 30 GB</li>
-                <li>Instalación de Windows 11 Pro con ajuste de espacio</li>
-                <li>Instalación manual de <strong>Arch Linux</strong> desde cero</li>
-                <li>Configuración de <strong>Hyprland</strong> como compositor Wayland</li>
-                <li>Configuración del bootloader dual-boot</li>
+                <li>Analicé el hardware y la compatibilidad de los drivers.</li>
+                <li>Desbloqueé el firmware del Chromebook.</li>
+                <li>Diseñé el esquema de particionado en los 30 GB disponibles.</li>
+                <li>Instalé Windows 11 Pro, ajustando el espacio al máximo.</li>
+                <li>Instalé manualmente <strong>Arch Linux</strong> desde cero.</li>
+                <li>Configuré <strong>Hyprland</strong> como el compositor Wayland.</li>
+                <li>Configuré el bootloader para gestionar el arranque dual.</li>
               </ul>
               <h4 class="mt">Resultado</h4>
               <p>
-                <strong>Funcionó perfectamente.</strong> Dual-boot operativo entre
-                Windows 11 Pro y Arch Linux con Hyprland. Todo documentado.
+                El equipo funciona con un sistema dual-boot completamente operativo entre Windows 11 Pro y Arch Linux con Hyprland. He documentado todo el proceso.
               </p>
             </div>
           </div>
@@ -224,29 +216,23 @@
             <div class="detail-block">
               <h4>Contexto</h4>
               <p>
-                Práctica de instalación del módulo SOM (1º SMR).
-                Opté por <strong>Endeavour OS</strong>, una distribución basada en
-                Arch Linux, con instalador gráfico pero sin ocultar la estructura del sistema
-                por querer profundizar más allá del temario.
+                Para una práctica de instalación del módulo SOM en 1º de SMR, elegí <strong>Endeavour OS</strong>. Es una distribución basada en Arch Linux que ofrece un instalador gráfico, pero sin llegar a ocultar la estructura interna del sistema operativo. La escogí para poder profundizar más allá del temario básico.
               </p>
               <h4 class="mt">Por qué Endeavour OS</h4>
               <p>
-                Arch Linux puro requiere una instalación completamente manual desde la TTY.
-                Endeavour mantiene esa filosofía con un instalador gráfico, ideal
-                para profundizar en cómo funciona el sistema real sin perder horas
-                en el particionado.
+                Aunque Arch Linux puro requiere una instalación manual desde la TTY, Endeavour mantiene la misma filosofía pero agiliza el proceso con su instalador gráfico. Esto me permitió estudiar cómo funciona el sistema real por debajo sin tener que invertir horas extra configurando el particionado a mano.
               </p>
             </div>
             <div class="detail-block">
-              <h4>Contenido del documento</h4>
+              <h4>Contenido de la documentación</h4>
               <ul>
-                <li>Análisis de la distro y comparativa con otras opciones</li>
-                <li>Proceso de instalación paso a paso con capturas</li>
-                <li>Configuración del entorno post-instalación</li>
-                <li>Licenciado bajo <strong>CC BY-NC-SA 4.0</strong></li>
+                <li>Realicé un análisis de la distribución y la comparé con otras opciones.</li>
+                <li>Documenté el proceso de instalación paso a paso, incluyendo las capturas de pantalla.</li>
+                <li>Añadí la configuración del entorno post-instalación.</li>
+                <li>Publiqué todo el material bajo la licencia <strong>CC BY-NC-SA 4.0</strong>.</li>
               </ul>
               <h4 class="mt">Plataforma</h4>
-              <p>Hardware real · Intel Core i5-7500 3.40GHz · 8 GB RAM</p>
+              <p>Equipo físico con un procesador Intel Core i5-7500 a 3.40GHz y 8 GB de memoria RAM.</p>
             </div>
           </div>
 
@@ -293,85 +279,54 @@
         <div class="project-detail">
           <div class="project-detail-inner">
             <div class="detail-block">
-              <h4>El problema real</h4>
+              <h4>El problema</h4>
               <p>
-                Instalar Arch Linux manualmente implica más de 30 comandos ejecutados en orden exacto:
-                particionado, formateo, montaje, <code>pacstrap</code>, <code>arch-chroot</code>,
-                configuración del bootloader, red, locale, zona horaria, usuarios...
-                Y un solo error en cualquier punto te obliga a empezar casi desde cero.
-                Hacerlo repetidamente en diferentes máquinas es tiempo perdido de forma sistemática.
+                Instalar Arch Linux a mano requiere introducir más de 30 comandos en un orden exacto: el particionado, el formateo, el montaje, <code>pacstrap</code>, <code>arch-chroot</code>, la configuración del gestor de arranque, la red, la zona horaria y los usuarios. Un solo error te obliga a empezar casi desde cero. Como instalo el sistema frecuentemente, necesitaba automatizar este proceso.
               </p>
-              <h4 class="mt">La solución: un instalador de producción</h4>
+              <h4 class="mt">La solución</h4>
               <p>
-                Un único archivo <code>install.sh</code> con <strong>set -euo pipefail</strong>
-                (ejecución estricta, sin fallos silenciosos) que recorre tres fases de preguntas
-                antes de tocar el disco. <strong>Cualquier pregunta te permite pulsar <code>&lt;</code> + Enter
-                  para volver al paso anterior sin perder la configuración ya completada.</strong>
+                Escribí un archivo <code>install.sh</code> utilizando <strong>set -euo pipefail</strong> para asegurar una ejecución estricta y sin fallos silenciosos. El script recorre tres fases de configuración interactiva antes de aplicar cualquier cambio en el disco duro. <strong>En cualquier pregunta del proceso, puedes pulsar <code>&lt;</code> y Enter para regresar al paso anterior sin perder los datos de las fases ya completadas.</strong>
               </p>
             </div>
 
             <div class="detail-block">
-              <h4>Fase 1 — Sistema Base (11 decisiones)</h4>
+              <h4>Fase 1: El Sistema Base (11 decisiones)</h4>
               <ul>
-                <li><strong>Detección automática</strong> de discos con modelo y tamaño (<code>lsblk</code>)</li>
-                <li><strong>UEFI vs BIOS/Legacy</strong> detectado automáticamente desde <code>/sys/firmware/efi</code>
-                </li>
-                <li>Swap configurable con validación de formato (<code>8G</code>, <code>512M</code>) y comprobación de
-                  que cabe en el disco</li>
-                <li><strong>Cifrado LUKS</strong> — LUKS2 + Argon2id para <code>systemd-boot</code>, LUKS1 + SHA-256
-                  para GRUB (por compatibilidad). La swap cifrada usa <code>PARTUUID</code> para evitar arranques lentos
-                </li>
-                <li><strong>Sistema de archivos:</strong> <code>ext4</code> (clásico) o <code>btrfs</code> con
-                  subvolúmenes automáticos (<code>@</code>, <code>@home</code>, <code>@snapshots</code>,
-                  <code>@log</code>)
-                </li>
-                <li>Partición <code>/home</code> separada (solo ext4); el espacio restante se asigna automáticamente
-                </li>
-                <li>Hostname, zona horaria (validada contra <code>/usr/share/zoneinfo/</code>), idioma y distribución de
-                  teclado</li>
-                <li><strong>Selección de kernel:</strong> <code>linux</code> · <code>linux-lts</code> ·
-                  <code>linux-zen</code> · <code>linux-hardened</code>
-                </li>
-                <li><strong>Bootloader:</strong> <code>GRUB</code> (UEFI + BIOS) · <code>systemd-boot</code> (solo UEFI)
-                </li>
+                <li><strong>Detección automática</strong> de los discos mediante <code>lsblk</code>.</li>
+                <li><strong>Detección del firmware</strong> (UEFI o BIOS/Legacy) leyendo directamente desde <code>/sys/firmware/efi</code>.</li>
+                <li>Configuración del tamaño de la partición Swap, comprobando que quepa físicamente en el disco.</li>
+                <li><strong>Cifrado mediante LUKS:</strong> LUKS2 con Argon2id para <code>systemd-boot</code>, y LUKS1 con SHA-256 para GRUB por compatibilidad. La partición Swap cifrada utiliza el <code>PARTUUID</code> para evitar arranques lentos.</li>
+                <li><strong>Elección del sistema de archivos:</strong> <code>ext4</code> clásico o <code>btrfs</code>, creando automáticamente los subvolúmenes <code>@</code>, <code>@home</code>, <code>@snapshots</code> y <code>@log</code>.</li>
+                <li>Creación de una partición <code>/home</code> separada si se usa ext4, calculando el espacio restante de forma dinámica.</li>
+                <li>Configuración del nombre del equipo, el idioma, la distribución del teclado y la zona horaria (validando esta última contra los archivos en <code>/usr/share/zoneinfo/</code>).</li>
+                <li><strong>Selección del kernel:</strong> <code>linux</code>, <code>linux-lts</code>, <code>linux-zen</code> o <code>linux-hardened</code>.</li>
+                <li><strong>Selección del gestor de arranque:</strong> <code>GRUB</code> o <code>systemd-boot</code>.</li>
               </ul>
             </div>
 
             <div class="detail-block">
-              <h4>Fase 2 — Usuario y Seguridad</h4>
+              <h4>Fase 2: Usuarios y Seguridad</h4>
               <ul>
-                <li>Nombre de usuario con creación automática en grupos <code>wheel</code>, <code>audio</code>,
-                  <code>video</code>, <code>storage</code>
-                </li>
-                <li>Contraseña de <code>root</code> y de usuario con entrada oculta y <strong>doble confirmación
-                    obligatoria</strong></li>
+                <li>Creación del usuario principal y asignación automática a los grupos <code>wheel</code>, <code>audio</code>, <code>video</code> y <code>storage</code>.</li>
+                <li>Establecimiento de las contraseñas para <code>root</code> y para el usuario, ocultando la entrada y exigiendo una <strong>doble confirmación</strong>.</li>
               </ul>
-              <h4 class="mt">Fase 3 — Entorno Gráfico y Extras</h4>
+              <h4 class="mt">Fase 3: Entorno Gráfico y Paquetes Extra</h4>
               <ul>
-                <li><strong>Driver de vídeo:</strong> Intel · AMD · NVIDIA · VirtualBox · VMware · Ninguno (servidor
-                  headless)</li>
-                <li><strong>Entorno de escritorio:</strong> GNOME · KDE Plasma · XFCE · Hyprland · i3-wm · Todos ·
-                  Ninguno</li>
-                <li><strong>AUR helper:</strong> <code>paru</code> · <code>yay</code> · ninguno</li>
-                <li><strong>Dotfiles:</strong> URL de repositorio git + script de instalación definido por el usuario
-                </li>
-                <li><strong>SSH:</strong> habilita <code>sshd</code> al arranque con un solo paso</li>
+                <li><strong>Selección de los drivers de vídeo:</strong> Intel, AMD, NVIDIA, VirtualBox, VMware o ninguno para servidores.</li>
+                <li><strong>Instalación del entorno de escritorio:</strong> GNOME, KDE Plasma, XFCE, Hyprland, i3-wm o ninguno.</li>
+                <li><strong>Instalación del gestor de paquetes AUR:</strong> <code>paru</code> o <code>yay</code>.</li>
+                <li><strong>Descarga de Dotfiles:</strong> Pide la URL de un repositorio Git y el nombre del script de instalación del usuario.</li>
+                <li><strong>Servicio SSH:</strong> Permite habilitar el demonio <code>sshd</code> para que arranque con el sistema.</li>
               </ul>
             </div>
 
             <div class="detail-block">
-              <h4>Ingeniería interna destacada</h4>
+              <h4>Arquitectura del script</h4>
               <ul>
-                <li><strong>Máquina de estados:</strong> <code>HISTORIAL[]</code> + <code>PASO</code> permiten navegar
-                  hacia atrás sin perder datos de cada fase</li>
-                <li><strong>UI coloreada completa:</strong> funciones <code>log()</code>, <code>warn()</code>,
-                  <code>error()</code>, <code>step()</code>, <code>pick()</code> con ANSI para una experiencia visual
-                  profesional en TTY
-                </li>
-                <li><strong>Validación real:</strong> verifica existencia del disco, formato de tamaños, que el swap no
-                  supera el espacio disponible y que las contraseñas coinciden</li>
-                <li><strong>Cero configuración manual posterior:</strong> el sistema arranca completamente listo
-                  incluyendo el entorno gráfico, el gestor de paquetes del AUR y los dotfiles personales</li>
+                <li><strong>Máquina de estados:</strong> Las variables <code>HISTORIAL[]</code> y <code>PASO</code> permiten retroceder de paso sin perder los datos ya introducidos.</li>
+                <li><strong>Interfaz visual mediante colores ANSI:</strong> Implementé las funciones <code>log()</code>, <code>warn()</code>, <code>error()</code>, <code>step()</code> y <code>pick()</code> para mejorar la legibilidad en la consola TTY.</li>
+                <li><strong>Validación de los datos:</strong> El script verifica que el disco exista realmente, que las contraseñas coincidan y que el tamaño indicado para la partición Swap no exceda la capacidad del disco.</li>
+                <li><strong>Cero configuración posterior:</strong> Al terminar el script, el sistema arranca listo para usarse, incluyendo el entorno gráfico, el gestor AUR y las configuraciones personales del usuario.</li>
               </ul>
             </div>
           </div>
