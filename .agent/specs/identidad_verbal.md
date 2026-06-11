@@ -12,7 +12,7 @@ El tono debe transmitir dos cosas simultáneas que rara vez se ven juntas:
 * **Show, Don't Tell (Demuestra, no alardees):** Nunca digas que haces "locuras" o que eres "un prodigio". Da los datos técnicos de lo que has construido y deja que el lector sea el que juzgue el valor de tu trabajo. Sé descriptivo y humilde.
 * **En Primera Persona:** Siempre hablando en "yo" ("Soy Aitor", "Aquí te enseño").
 * **Muestra la Edad y la Ambición:** Mencionar la edad (16 años) y los estudios actuales (CFGM SMR) no es debilidad, es una fortaleza masiva dado el nivel técnico.
-* **El Objetivo:** Dejar clarísimo que busca una oportunidad para sus **primeras prácticas**, con humildad pero con la seguridad de quien ya sabe defenderse en la terminal.
+* **El Objetivo:** Dejar clarísimo que busca una oportunidad para su **primer trabajo**, con humildad pero con la seguridad de quien ya sabe defenderse en la terminal.
 * **Gramática 100% Humana (Anti-IA):** Está totalmente prohibido usar el guion largo o raya (`—`) para hacer pausas, ya que delata que el texto ha sido generado por IA. Usa siempre comas, puntos o conjunciones (p. ej. en vez de "El hardware funcionaba — el software limitaba", escribe "El hardware funcionaba, pero el software lo limitaba").
 * **Uso Obligatorio de Determinantes:** No te comas los artículos al enumerar o describir sustantivos. (p. ej. en vez de "sin perder datos de cada fase", escribe "sin perder los datos de cada fase").
 

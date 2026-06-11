@@ -231,7 +231,7 @@ function initInteractiveTerminal() {
     "github": {
       "enlaces.txt": "Perfil de GitHub:\n\ud83d\udc49 https://github.com/aitorino2009\n\nRepositorios destacados:\n  - instalador-arch  (Script Bash producci\u00f3n)\n  - aitorino2009.github.io  (Este portfolio)"
     },
-    "acerca.txt": "\u00a1Hola! Soy Aitor. Tengo 16 a\u00f1os y curso un CFGM de SMR.\nEstudio esto porque me encanta y dedico mi tiempo libre a aprender sobre GNU/Linux, Bash y desarrollo web (Vanilla).\nVivo en Mallorca \ud83d\udccd y busco mi primera oportunidad de pr\u00e1cticas para seguir aprendiendo en un entorno real."
+    "acerca.txt": "¡Hola! Soy Aitor. Tengo 16 años y curso un CFGM de SMR.\nEstudio esto porque me encanta y dedico mi tiempo libre a aprender sobre GNU/Linux, Bash y desarrollo web (Vanilla).\nVivo en Mallorca 📍 y busco mi primer trabajo para seguir aprendiendo en un entorno real."
   };
 
   // Mapa: nombre de carpeta \u2192 ID de proyecto en el DOM
