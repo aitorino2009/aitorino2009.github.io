@@ -17,8 +17,8 @@ El tono debe transmitir dos cosas simultáneas que rara vez se ven juntas:
 * **Uso Obligatorio de Determinantes:** No te comas los artículos al enumerar o describir sustantivos. (p. ej. en vez de "sin perder datos de cada fase", escribe "sin perder los datos de cada fase").
 
 ## 3. Ejemplos de Antes y Después
-**Antes:** "Abierto a prácticas y oportunidades en el sector TI."
-**Después:** "Buscando mi primera oportunidad de prácticas para demostrar lo que sé y seguir aprendiendo en el mundo real."
+**Antes:** "Abierto a trabajos y oportunidades en el sector TI."
+**Después:** "Buscando mi primer trabajo para demostrar lo que sé y seguir aprendiendo en el mundo real."
 
 **Antes:** "Desarrollador por vocación."
 **Después:** "Programo y monto servidores porque me encanta, sin más."

@@ -380,13 +380,23 @@ function initInteractiveTerminal() {
       e.preventDefault();
       let cmd = input.innerText.trim();
 
-      if (cmd === '') cmd = 'help';
-      else {
+      const promptDiv = input.closest('.terminal-prompt');
+      const isPristine = promptDiv ? promptDiv.classList.contains('terminal-pristine') : false;
+
+      if (cmd === '') {
+        if (isPristine) {
+          cmd = 'help';
+        } else {
+          historyBox.innerHTML += `<div class="t-line">${getPromptHTML()}<span class="t-cmd"></span></div>`;
+          input.innerText = '';
+          historyBox.scrollTop = historyBox.scrollHeight;
+          return;
+        }
+      } else {
         if (cmdHistory[cmdHistory.length - 1] !== cmd) cmdHistory.push(cmd);
         historyIndex = -1;
       }
 
-      const promptDiv = input.closest('.terminal-prompt');
       if (promptDiv) promptDiv.classList.remove('terminal-pristine');
 
       historyBox.innerHTML += `<div class="t-line">${getPromptHTML()}<span class="t-cmd">${cmd}</span></div>`;
