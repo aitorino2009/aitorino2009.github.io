@@ -15,5 +15,5 @@ El layout será un grid asimétrico o flexbox con dos bloques claramente separad
 
 ## Micro-Badges
 Elementos inline pequeños (`padding: 4px 10px`, `border-radius: 20px`, `border: 1px solid #333`) que muestran información clave sin ocupar espacio de grid.
-*   Ej: `[Punto Verde] Buscando Prácticas`
+*   Ej: `[Punto Verde] Buscando mi primer trabajo`
 *   Ej: `Palma de Mallorca`
